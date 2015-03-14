@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -35,6 +36,7 @@
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.imageControl1 = new SaveAsFIT.ImageControl();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -90,12 +92,19 @@
             // 
             this.imageControl1.BackColor = System.Drawing.Color.Gray;
             this.imageControl1.Location = new System.Drawing.Point(453, 202);
+            this.imageControl1.MaxZoomLevel = 10F;
+            this.imageControl1.MinimumSize = new System.Drawing.Size(32, 18);
             this.imageControl1.Name = "imageControl1";
             this.imageControl1.PanPosition = new System.Drawing.Point(0, 0);
             this.imageControl1.Size = new System.Drawing.Size(307, 110);
             this.imageControl1.SourceImage = null;
             this.imageControl1.TabIndex = 3;
             this.imageControl1.ZoomLevel = 0F;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
@@ -126,6 +135,7 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private ImageControl imageControl1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
