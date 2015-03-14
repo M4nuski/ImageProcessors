@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgoTest1", "AlgoTest1\Algo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelStacker", "ChannelStacker\ChannelStacker.csproj", "{FFEA8692-D6DE-47E3-8A74-A11F8B7086E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveAsFIT", "SaveAsFIT\SaveAsFIT.csproj", "{E4AF03E6-6189-4DE8-9BFE-512925428ABB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveAsFITS", "SaveAsFIT\SaveAsFITS.csproj", "{E4AF03E6-6189-4DE8-9BFE-512925428ABB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
