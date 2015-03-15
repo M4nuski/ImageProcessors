@@ -55,7 +55,7 @@
             this.toolStripMenuItem2});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(846, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(346, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
@@ -79,6 +79,9 @@
             // 
             // imageControl1
             // 
+            this.imageControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.imageControl1.BackColor = System.Drawing.Color.Gray;
             this.imageControl1.Location = new System.Drawing.Point(12, 66);
             this.imageControl1.MaxZoomLevel = 10F;
@@ -98,7 +101,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(846, 738);
+            this.ClientSize = new System.Drawing.Size(346, 315);
             this.Controls.Add(this.imageControl1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);

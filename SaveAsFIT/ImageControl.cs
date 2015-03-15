@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SaveAsFIT
@@ -23,7 +17,7 @@ namespace SaveAsFIT
             }
             set
             {
-                setZoomLevel(value);
+                setZoomLevel(clamp(value, fitZoomLevel, maxZoomLevel));
             }
         }
 
@@ -36,7 +30,11 @@ namespace SaveAsFIT
             }
             set
             {
-                loadNewSourceImage(value);
+                if (value != null)
+                {
+                    sourceImage = value;
+                    FitImageToControl();
+                }
             }
         }
         private float fitZoomLevel; //also hapens to be minimum zoom level
@@ -61,12 +59,9 @@ namespace SaveAsFIT
         private int maxPanX, maxPanY;
         private int minPanX, minPanY;
         private bool panning;
+
+
         public Point PanPosition;
-        private Rectangle destRectangle, srcRectangle;
-
-        private float destCenterX, destCenterY;
-
-        private float srcCenterX, srcCenterY;
 
         public ImageControl()
         {
@@ -109,34 +104,29 @@ namespace SaveAsFIT
             }
         }
 
-        private void loadNewSourceImage(Image img)
+        private void setFitZoomLevel()
         {
-            if (img != null)
+            if (sourceImage != null)
             {
-                sourceImage = img;
+                if (sourceImage.Width != Width)
+                {
+                    fitZoomLevel = (float) Width/sourceImage.Width;
+                }
+                else
+                {
+                    fitZoomLevel = 1.0f;
+                }
 
-                srcCenterX = img.Width / 2.0f;
-                srcCenterY = img.Height / 2.0f;
-
-                FitImageToControl();
+                if ((sourceImage.Height*fitZoomLevel) > Height)
+                {
+                    fitZoomLevel = (float) Height/sourceImage.Height;
+                }
             }
         }
 
         public void FitImageToControl()
         {
-            if (sourceImage.Width != Width)
-            {
-                fitZoomLevel = (float)Width / sourceImage.Width;
-            }
-            else
-            {
-                fitZoomLevel = 1.0f;
-            }
-
-            if ((sourceImage.Height * fitZoomLevel) > Height)
-            {
-                fitZoomLevel = (float)Height / sourceImage.Height;
-            }
+            setFitZoomLevel();
             PanPosition = new Point((int)(((sourceImage.Width * fitZoomLevel) - Width) * 0.5f), (int)(((sourceImage.Height * fitZoomLevel) - Height) * 0.5f));
             ZoomLevel = fitZoomLevel;
         }
@@ -145,8 +135,7 @@ namespace SaveAsFIT
         {
             if (SourceImage != null)
             {
-                getCurrentRectangle();
-                e.Graphics.DrawImage(SourceImage, destRectangle, srcRectangle, GraphicsUnit.Pixel);
+                e.Graphics.DrawImage(SourceImage, DisplayRectangle, getCurrentRectangle(), GraphicsUnit.Pixel);
             }
         }
 
@@ -191,11 +180,12 @@ namespace SaveAsFIT
 
         private void ImageControl_Resize(object sender, EventArgs e)
         {
-            destCenterX = Width / 2.0f;
-            destCenterY = Height / 2.0f;
+            var lastFitZoomLevel = fitZoomLevel;
+            setFitZoomLevel();
+            ZoomLevel = zoomLevel*fitZoomLevel/lastFitZoomLevel;
         }
 
-        private void getCurrentRectangle()
+        private Rectangle getCurrentRectangle()
         {
             //    var l = (PanPosition.X / zoomLevel) + srcCenterX - (destCenterX / ZoomLevel);
             //    var t = (PanPosition.Y / zoomLevel) + srcCenterY - (destCenterY / ZoomLevel);
@@ -210,11 +200,7 @@ namespace SaveAsFIT
             //if ((l+w) > sourceImage.Width) w = sourceImage.Width-l;
             //if ((t+h) > sourceImage.Height) h = sourceImage.Height-t;
 
-            srcRectangle = new Rectangle((int)l, (int)t, (int)w, (int)h);
-
-            //TODO clip if out of bounds
-            destRectangle = new Rectangle(0, 0, Width, Height);
-
+            return new Rectangle((int)l, (int)t, (int)w, (int)h);
         }
 
         private static int clamp(int val, int min, int max)
@@ -222,6 +208,13 @@ namespace SaveAsFIT
             if (val > max) val = max;
             if (val < min) val = min;
             return val;
+        }
+
+        private static float clamp(float val, float min, float max)
+        {
+            if (val > max) val = max;
+            if (val < min) val = min;
+            return val;            
         }
 
     }
