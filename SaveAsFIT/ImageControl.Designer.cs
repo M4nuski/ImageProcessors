@@ -41,7 +41,6 @@
             this.Size = new System.Drawing.Size(320, 180);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ImageControl_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ImageControl_MouseDown);
-            this.MouseLeave += new System.EventHandler(this.ImageControl_MouseLeave);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ImageControl_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.ImageControl_MouseUp);
             this.Resize += new System.EventHandler(this.ImageControl_Resize);

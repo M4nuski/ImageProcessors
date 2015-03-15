@@ -9,15 +9,12 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SaveAsFIT
-{        
+{
 
     public partial class ImageControl : UserControl
-    {        
-        
-
+    {
 
         private float zoomLevel;
-
         public float ZoomLevel
         {
             get
@@ -56,37 +53,20 @@ namespace SaveAsFIT
                 if (value > fitZoomLevel)
                 {
                     maxZoomLevel = value;
-                }    
-            } 
+                }
+            }
         }
 
         private int lastMouseX, lastMouseY;
         private int maxPanX, maxPanY;
+        private int minPanX, minPanY;
         private bool panning;
         public Point PanPosition;
         private Rectangle destRectangle, srcRectangle;
 
-        private float destScaleX, destScaleY;
-        private float destOffsetX, destOffsetY;
-        private float srcPosX, srcPosY;
-        private float srcScaleX, srcScaleY;
-        private float srcOffsetX, srcOffsetY;
+        private float destCenterX, destCenterY;
 
-        /* pixels coordinate system
-         * 0.0, 0.0                 width, 0.0
-         * 
-         * 
-         * 0.0, height                 width, height
-         * 
-         * float coordinates system
-         * -1.0,-1.0       0.0,-1.0        1.0,-1.0
-         * 
-         * -1.0, 0.0       0.0, 0.0        1.0, 0.0
-         * 
-         * -1.0, 1.0       0.0, 1.0        1.0, 1.0
-         * 
-         */
-
+        private float srcCenterX, srcCenterY;
 
         public ImageControl()
         {
@@ -96,13 +76,35 @@ namespace SaveAsFIT
 
         private void setZoomLevel(float newLevel)
         {
-            zoomLevel = newLevel;
             if (sourceImage != null)
             {
-                srcOffsetX = sourceImage.Width*zoomLevel/2.0f;
-                srcOffsetY = sourceImage.Height*zoomLevel/2.0f;
-                maxPanX = (int) (sourceImage.Width*zoomLevel) - Width;
-                maxPanY = (int) (sourceImage.Height*zoomLevel) - Height;
+              //  var panOffsetX = sourceImage.Width * (newLevel - zoomLevel);
+              //  var panOffsetY = sourceImage.Height * (newLevel - zoomLevel);
+              //  PanPosition = new Point((int)(PanPosition.X + panOffsetX), (int)(PanPosition.Y + panOffsetY));
+
+                maxPanX = (int)((newLevel * sourceImage.Width) - Width);
+                maxPanY = (int)((newLevel * sourceImage.Height) - Height);
+                if ((newLevel * sourceImage.Width) < Width)
+                {
+                    minPanX = (int)(Width - (newLevel * sourceImage.Width)) / -2;
+                }
+                else
+                {
+                    minPanX = 0;
+                }
+                if ((newLevel * sourceImage.Height) < Height)
+                {
+                    minPanY = (int)(Height - (newLevel * sourceImage.Height)) / -2;
+                }
+                else
+                {
+                    minPanY = 0;
+                }
+
+                zoomLevel = newLevel;
+
+                PanPosition = new Point(clamp(PanPosition.X, minPanX, maxPanX), clamp(PanPosition.Y, minPanY, maxPanY));
+                
                 Refresh();
             }
         }
@@ -113,14 +115,8 @@ namespace SaveAsFIT
             {
                 sourceImage = img;
 
-                srcOffsetX = img.Width/2.0f;
-                srcOffsetY = img.Height/2.0f;
-                srcScaleX = img.Width;
-                srcScaleY = img.Height;
-                srcPosX = 0.0f;
-                srcPosY = 0.0f;
-
-                PanPosition = Point.Empty;
+                srcCenterX = img.Width / 2.0f;
+                srcCenterY = img.Height / 2.0f;
 
                 FitImageToControl();
             }
@@ -130,19 +126,19 @@ namespace SaveAsFIT
         {
             if (sourceImage.Width != Width)
             {
-                fitZoomLevel = (float) Width/sourceImage.Width;
+                fitZoomLevel = (float)Width / sourceImage.Width;
             }
             else
             {
                 fitZoomLevel = 1.0f;
             }
 
-            if ((sourceImage.Height*fitZoomLevel) > Height)
+            if ((sourceImage.Height * fitZoomLevel) > Height)
             {
-                fitZoomLevel = (float) Height/sourceImage.Height;
+                fitZoomLevel = (float)Height / sourceImage.Height;
             }
+            PanPosition = new Point((int)(((sourceImage.Width * fitZoomLevel) - Width) * 0.5f), (int)(((sourceImage.Height * fitZoomLevel) - Height) * 0.5f));
             ZoomLevel = fitZoomLevel;
-            Refresh();
         }
 
         private void ImageControl_Paint(object sender, PaintEventArgs e)
@@ -178,22 +174,15 @@ namespace SaveAsFIT
             panning = false;
         }
 
-        private void ImageControl_MouseLeave(object sender, EventArgs e)
-        {
-            panning = false;
-        }
-
         private void ImageControl_MouseMove(object sender, MouseEventArgs e)
         {
             if (panning)
             {
-                var tempX = Math.Min(PanPosition.X + lastMouseX - e.X, maxPanX);
-                if (tempX < 0) tempX = 0;
-
-                var tempY = Math.Min(PanPosition.Y + lastMouseY - e.Y, maxPanY);
-                if (tempY < 0) tempY = 0;
+                var tempX = clamp(PanPosition.X + lastMouseX - e.X, minPanX, maxPanX);
+                var tempY = clamp(PanPosition.Y + lastMouseY - e.Y, minPanY, maxPanY);
 
                 PanPosition = new Point(tempX, tempY);
+
                 lastMouseX = e.X;
                 lastMouseY = e.Y;
                 Refresh();
@@ -202,29 +191,37 @@ namespace SaveAsFIT
 
         private void ImageControl_Resize(object sender, EventArgs e)
         {
-            destOffsetX = Width/2.0f;
-            destOffsetY = Height/2.0f;
-            destScaleX = 2.0f/Width;
-            destScaleY = 2.0f/Height;
+            destCenterX = Width / 2.0f;
+            destCenterY = Height / 2.0f;
         }
 
         private void getCurrentRectangle()
         {
-            //process matrix to create source and destination area
-            var a = (PanPosition.X / zoomLevel) + ((srcOffsetX / ZoomLevel) + destOffsetX);
-            var b = (PanPosition.Y / zoomLevel) + ((srcOffsetY / ZoomLevel) + destOffsetY);
-            var c = Width / zoomLevel;
-            var d = Height / zoomLevel;
+            //    var l = (PanPosition.X / zoomLevel) + srcCenterX - (destCenterX / ZoomLevel);
+            //    var t = (PanPosition.Y / zoomLevel) + srcCenterY - (destCenterY / ZoomLevel);
+            var l = PanPosition.X / zoomLevel;
+            var t = PanPosition.Y / zoomLevel;
 
-            if (a < 0) a = 0;
-            if (b < 0) b = 0;
-            if ((a+c) > sourceImage.Width) c = sourceImage.Width-a;
-            if ((b+d) > sourceImage.Height) d = sourceImage.Height-b;
+            var w = Width / zoomLevel;
+            var h = Height / zoomLevel;
 
-            srcRectangle = new Rectangle((int)a, (int)b, (int)c, (int)d);
+            //      if (t < 0) t = 0;
+            //      if (l < 0) l = 0;
+            //if ((l+w) > sourceImage.Width) w = sourceImage.Width-l;
+            //if ((t+h) > sourceImage.Height) h = sourceImage.Height-t;
 
+            srcRectangle = new Rectangle((int)l, (int)t, (int)w, (int)h);
+
+            //TODO clip if out of bounds
             destRectangle = new Rectangle(0, 0, Width, Height);
 
+        }
+
+        private static int clamp(int val, int min, int max)
+        {
+            if (val > max) val = max;
+            if (val < min) val = min;
+            return val;
         }
 
     }

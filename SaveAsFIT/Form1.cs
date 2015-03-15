@@ -12,7 +12,7 @@ namespace SaveAsFIT
 {
     public partial class Form1 : Form
     {
-        private Bitmap sourceImage;
+      //  private Bitmap sourceImage;
         private StringBuilder sb = new StringBuilder();
         public Form1()
         {
