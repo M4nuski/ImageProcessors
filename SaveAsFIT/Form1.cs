@@ -13,7 +13,7 @@ namespace SaveAsFIT
     public partial class Form1 : Form
     {
         private Bitmap sourceImage;
-
+        private StringBuilder sb = new StringBuilder();
         public Form1()
         {
             InitializeComponent();
@@ -37,7 +37,12 @@ namespace SaveAsFIT
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            label1.Text = imageControl1.PanPosition.ToString();
+            sb.Clear();
+            sb.Append("Zoom Level: ");
+            sb.Append(imageControl1.ZoomLevel.ToString("F2"));
+            sb.Append(" PanPosition: ");
+            sb.Append(imageControl1.PanPosition);
+            label1.Text = sb.ToString();
         }
     }
 }
