@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SaveAsFIT
@@ -89,11 +90,11 @@ namespace SaveAsFIT
         {
             if (e.Delta > 0)
             {
-                ZoomLevel = Math.Min(maxZoomLevel, ZoomLevel * 1.5f);
+                ZoomLevel = Math.Min(maxZoomLevel, ZoomLevel * 1.25f);
             }
             else if (e.Delta < 0)
             {
-                ZoomLevel = Math.Max(fitZoomLevel, ZoomLevel / 1.5f);
+                ZoomLevel = Math.Max(fitZoomLevel, ZoomLevel / 1.25f);
             }
         }
 
@@ -111,10 +112,11 @@ namespace SaveAsFIT
 
                 PanPosition = new Point(tempX, tempY);
 
-                lastMouseX = e.X;
-                lastMouseY = e.Y;
+
                 Refresh();
             }
+                lastMouseX = e.X;
+                lastMouseY = e.Y;
         }
 
         private void ImageControl_Resize(object sender, EventArgs e)
@@ -130,12 +132,9 @@ namespace SaveAsFIT
         {
             if (sourceImage != null)
             {
-              //  var panOffsetX = sourceImage.Width * (newLevel - zoomLevel);
-              //  var panOffsetY = sourceImage.Height * (newLevel - zoomLevel);
-              //  PanPosition = new Point((int)(PanPosition.X + panOffsetX), (int)(PanPosition.Y + panOffsetY));
-
                 maxPanX = (int)((newLevel * sourceImage.Width) - Width);
                 maxPanY = (int)((newLevel * sourceImage.Height) - Height);
+
                 if ((newLevel * sourceImage.Width) < Width)
                 {
                     minPanX = (int)(Width - (newLevel * sourceImage.Width)) / -2;
@@ -152,11 +151,18 @@ namespace SaveAsFIT
                 {
                     minPanY = 0;
                 }
-
-                zoomLevel = newLevel;
-
-                PanPosition = new Point(clamp(PanPosition.X, minPanX, maxPanX), clamp(PanPosition.Y, minPanY, maxPanY));
+                //find out where the cursor is relative to source image
+                float tempX = ((PanPosition.X/zoomLevel)*newLevel); 
+                float tempY = ((PanPosition.Y/zoomLevel)*newLevel);
                 
+                //ajust to zoom level
+                //pan pos = tempx * (panpos + mousepos
+               // tempX = ((PanPosition.X * newLevel) * tempX) + lastMouseX;
+               // tempY = ((PanPosition.Y * newLevel) * tempY) + lastMouseY;
+
+                PanPosition = new Point((int)clamp(tempX, minPanX, maxPanX), (int)clamp(tempY, minPanY, maxPanY));
+                
+                zoomLevel = newLevel;
                 Refresh();
             }
         }
