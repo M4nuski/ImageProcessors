@@ -8,7 +8,7 @@ namespace SaveAsFIT
 
     public partial class ImageControl : UserControl
     {
-    #region Properties
+        #region Properties
         public Point PanPosition;
 
         private float zoomLevel;
@@ -62,8 +62,8 @@ namespace SaveAsFIT
         private int maxPanX, maxPanY;
         private int minPanX, minPanY;
         private bool panning;
-        #endregion 
-        
+        #endregion
+
         #region UI Methods
         public ImageControl()
         {
@@ -115,18 +115,18 @@ namespace SaveAsFIT
 
                 Refresh();
             }
-                lastMouseX = e.X;
-                lastMouseY = e.Y;
+            lastMouseX = e.X;
+            lastMouseY = e.Y;
         }
 
         private void ImageControl_Resize(object sender, EventArgs e)
         {
             var lastFitZoomLevel = fitZoomLevel;
             setFitZoomLevel();
-            ZoomLevel = zoomLevel*fitZoomLevel/lastFitZoomLevel;
+            ZoomLevel = zoomLevel * fitZoomLevel / lastFitZoomLevel;
         }
         #endregion
-       
+
         #region Control Methods
         private void setZoomLevel(float newLevel)
         {
@@ -151,17 +151,21 @@ namespace SaveAsFIT
                 {
                     minPanY = 0;
                 }
-                //find out where the cursor is relative to source image
-                float tempX = ((PanPosition.X/zoomLevel)*newLevel); 
-                float tempY = ((PanPosition.Y/zoomLevel)*newLevel);
-                
-                //ajust to zoom level
-                //pan pos = tempx * (panpos + mousepos
-               // tempX = ((PanPosition.X * newLevel) * tempX) + lastMouseX;
-               // tempY = ((PanPosition.Y * newLevel) * tempY) + lastMouseY;
+                //find new pan offset
+                var tempX = ((PanPosition.X / zoomLevel) * newLevel);
+                var tempY = ((PanPosition.Y / zoomLevel) * newLevel);
+
+                //find new mouse cursor position offset
+                var tempMousePosX = ((lastMouseX / zoomLevel) * newLevel);
+                var tempMousePosY = ((lastMouseY / zoomLevel) * newLevel);
+
+                //ajust pan offset with new cursor position offset
+                tempX += tempMousePosX - lastMouseX;
+                tempY += tempMousePosY - lastMouseY;
+
 
                 PanPosition = new Point((int)clamp(tempX, minPanX, maxPanX), (int)clamp(tempY, minPanY, maxPanY));
-                
+
                 zoomLevel = newLevel;
                 Refresh();
             }
@@ -173,16 +177,16 @@ namespace SaveAsFIT
             {
                 if (sourceImage.Width != Width)
                 {
-                    fitZoomLevel = (float) Width/sourceImage.Width;
+                    fitZoomLevel = (float)Width / sourceImage.Width;
                 }
                 else
                 {
                     fitZoomLevel = 1.0f;
                 }
 
-                if ((sourceImage.Height*fitZoomLevel) > Height)
+                if ((sourceImage.Height * fitZoomLevel) > Height)
                 {
-                    fitZoomLevel = (float) Height/sourceImage.Height;
+                    fitZoomLevel = (float)Height / sourceImage.Height;
                 }
             }
         }
@@ -218,7 +222,7 @@ namespace SaveAsFIT
         {
             if (val > max) val = max;
             if (val < min) val = min;
-            return val;            
+            return val;
         }
         #endregion
     }
