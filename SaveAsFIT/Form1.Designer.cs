@@ -29,53 +29,58 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.imageControl1 = new SaveAsFIT.ImageControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.imageControl1 = new SaveAsFIT.ImageControl();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 37);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(44, 17);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "100%";
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.toolStripMenuItem2});
+            this.toolStripMenuItem2,
+            this.toolStripTextBox1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(346, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(668, 31);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(54, 24);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(54, 27);
             this.toolStripMenuItem1.Text = "Load";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(70, 24);
-            this.toolStripMenuItem2.Text = "Save as";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(72, 27);
+            this.toolStripMenuItem2.Text = "Save As";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.ReadOnly = true;
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 27);
+            this.toolStripTextBox1.Text = "100%";
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // imageControl1
             // 
@@ -83,27 +88,25 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageControl1.BackColor = System.Drawing.Color.Gray;
-            this.imageControl1.Location = new System.Drawing.Point(12, 66);
+            this.imageControl1.Location = new System.Drawing.Point(12, 44);
             this.imageControl1.MaxZoomLevel = 10F;
             this.imageControl1.MinimumSize = new System.Drawing.Size(32, 18);
             this.imageControl1.Name = "imageControl1";
-            this.imageControl1.Size = new System.Drawing.Size(320, 240);
+            this.imageControl1.Size = new System.Drawing.Size(642, 460);
             this.imageControl1.SourceImage = null;
             this.imageControl1.TabIndex = 3;
             this.imageControl1.ZoomLevel = 0F;
             // 
-            // timer1
+            // saveFileDialog1
             // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.saveFileDialog1.DefaultExt = "fit";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(346, 315);
+            this.ClientSize = new System.Drawing.Size(668, 516);
             this.Controls.Add(this.imageControl1);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
@@ -117,13 +120,14 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private ImageControl imageControl1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 

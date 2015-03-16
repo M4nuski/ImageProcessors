@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace SaveAsFIT
 {
-
     public partial class ImageControl : UserControl
     {
         #region Properties
         public Point PanPosition;
-
+        public float ZoomIncrements = 1.25f;
         private float zoomLevel;
         public float ZoomLevel
         {
@@ -41,7 +39,7 @@ namespace SaveAsFIT
             }
         }
 
-        private float fitZoomLevel; //also hapens to be minimum zoom level
+        private float fitZoomLevel; //also happens to be minimum zoom level
         private float maxZoomLevel = 10.0f;
         public float MaxZoomLevel
         {
@@ -82,19 +80,17 @@ namespace SaveAsFIT
         private void ImageControl_MouseDown(object sender, MouseEventArgs e)
         {
             panning = true;
-            lastMouseX = e.X;
-            lastMouseY = e.Y;
         }
 
         private void ImageControl_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta > 0)
             {
-                ZoomLevel = Math.Min(maxZoomLevel, ZoomLevel * 1.25f);
+                ZoomLevel = Math.Min(maxZoomLevel, ZoomLevel * ZoomIncrements);
             }
             else if (e.Delta < 0)
             {
-                ZoomLevel = Math.Max(fitZoomLevel, ZoomLevel / 1.25f);
+                ZoomLevel = Math.Max(fitZoomLevel, ZoomLevel / ZoomIncrements);
             }
         }
 
@@ -111,7 +107,6 @@ namespace SaveAsFIT
                 var tempY = clamp(PanPosition.Y + lastMouseY - e.Y, minPanY, maxPanY);
 
                 PanPosition = new Point(tempX, tempY);
-
 
                 Refresh();
             }
