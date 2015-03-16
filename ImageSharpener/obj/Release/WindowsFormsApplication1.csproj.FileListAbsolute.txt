@@ -1,8 +1,0 @@
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\bin\Release\WindowsFormsApplication1.exe.config
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\bin\Release\WindowsFormsApplication1.exe
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\bin\Release\WindowsFormsApplication1.pdb
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.Form1.resources
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.Properties.Resources.resources
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.csproj.GenerateResource.Cache
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.exe
-C:\Prog\Visual Studio 2012\Projects\FolderScan\WindowsFormsApplication1\WindowsFormsApplication1\obj\Release\WindowsFormsApplication1.pdb
