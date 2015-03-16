@@ -151,18 +151,10 @@ namespace SaveAsFIT
                 {
                     minPanY = 0;
                 }
+
                 //find new pan offset
-                var tempX = ((PanPosition.X / zoomLevel) * newLevel);
-                var tempY = ((PanPosition.Y / zoomLevel) * newLevel);
-
-                //find new mouse cursor position offset
-                var tempMousePosX = ((lastMouseX / zoomLevel) * newLevel);
-                var tempMousePosY = ((lastMouseY / zoomLevel) * newLevel);
-
-                //ajust pan offset with new cursor position offset
-                tempX += tempMousePosX - lastMouseX;
-                tempY += tempMousePosY - lastMouseY;
-
+                var tempX = (((PanPosition.X + lastMouseX) / zoomLevel) * newLevel) - lastMouseX;
+                var tempY = (((PanPosition.Y + lastMouseY) / zoomLevel) * newLevel) - lastMouseY;
 
                 PanPosition = new Point((int)clamp(tempX, minPanX, maxPanX), (int)clamp(tempY, minPanY, maxPanY));
 
