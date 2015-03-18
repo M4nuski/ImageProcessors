@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Windows.Forms;
 
@@ -21,9 +19,7 @@ namespace SaveAsFIT
         private const string FITS_Header_NAxis  = "NAXIS   = ";//                   2 / number of data axes
         private const string FITS_Header_NAxis1 = "NAXIS1  = ";//                 440 / length of data axis 1
         private const string FITS_Header_NAxis2 = "NAXIS2  = ";//                 300 / length of data axis 2
-
-        
-        
+        private const string FITS_Header_BZero  = "BZERO   = ";//               32768 /
         public Form1()
         {
             InitializeComponent();
@@ -51,12 +47,13 @@ namespace SaveAsFIT
                 headerStrings = new string[32];
 
                 headerStrings[0] = createHeaderString(FITS_Header_Simple, true, "file conforms to FITS standard");
-                headerStrings[1] = createHeaderString(FITS_Header_BitPix, 16, "16 bits per pixels unsigned");
+                headerStrings[1] = createHeaderString(FITS_Header_BitPix, 16, "16 bits per pixels");
                 headerStrings[2] = createHeaderString(FITS_Header_NAxis, 2, "2D image");
                 headerStrings[3] = createHeaderString(FITS_Header_NAxis1, sourceBitmap.Width, "image width");
                 headerStrings[4] = createHeaderString(FITS_Header_NAxis2, sourceBitmap.Height, "image height");
+                headerStrings[5] = createHeaderString(FITS_Header_BZero, 32768, "0 offset for unsigned");
 
-                for (var i = 5; i < 32; i++)
+                for (var i = 6; i < 32; i++)
                 {
                     headerStrings[i] = string.Empty;
                 }
@@ -72,35 +69,33 @@ namespace SaveAsFIT
                 }
 
                 //write data
-                var grayscaleImage = new Bitmap(sourceBitmap.Width, sourceBitmap.Height, PixelFormat.Format16bppGrayScale);
-                using (var graph = Graphics.FromImage(grayscaleImage))
-                {
-                    graph.DrawImageUnscaled(sourceBitmap, 0, 0);
-                }
-
-                var depth = Image.GetPixelFormatSize(grayscaleImage.PixelFormat);
-
+                var depth = Image.GetPixelFormatSize(sourceBitmap.PixelFormat);
                 var pixelSize = (depth > 16) ? (depth / 8) : 2;
-
-                var pixelBufferSize = grayscaleImage.Width * grayscaleImage.Height * pixelSize;
-
+                var pixelBufferSize = sourceBitmap.Width * sourceBitmap.Height * pixelSize;
                 var PixelSource = new byte[pixelBufferSize];
-
-                var pixData = grayscaleImage.LockBits(new Rectangle(0, 0, grayscaleImage.Width, grayscaleImage.Height), 
+                var pixData = sourceBitmap.LockBits(new Rectangle(0, 0, sourceBitmap.Width, sourceBitmap.Height), 
                     ImageLockMode.ReadOnly,
-                    grayscaleImage.PixelFormat);
-
+                    sourceBitmap.PixelFormat);
                 Marshal.Copy(pixData.Scan0, PixelSource, 0, pixelBufferSize);
-                grayscaleImage.UnlockBits(pixData);
+                sourceBitmap.UnlockBits(pixData);
 
-                writer.Write(PixelSource);
+                for (var i = sourceBitmap.Height-1; i >= 0; i--)
+                {
+                    for (var j = 0; j < sourceBitmap.Width; j++)
+                    {
+                        var index = ((i * sourceBitmap.Width) + j) * pixelSize;
+
+                        writer.Write(stackPixels(PixelSource[index], PixelSource[index + 1], PixelSource[index + 2]));
+                     //   writer.Write(PixelSource[index]);
+                    }
+                }
 
                 fileStream.Flush();
                 fileStream.Dispose();
             } 
         }
 
-        private string createHeaderString(string varName, int val, string comment)
+        private static string createHeaderString(string varName, int val, string comment)
         {
             var sb = new StringBuilder(varName);
             sb.Append(val.ToString(CultureInfo.InvariantCulture).PadLeft(20));
@@ -110,7 +105,7 @@ namespace SaveAsFIT
             return sb.ToString().PadRight(80);
         }
 
-        private string createHeaderString(string varName, bool val, string comment)
+        private static string createHeaderString(string varName, bool val, string comment)
         {
             var vb = (val) ? "T" : "F";
             var sb = new StringBuilder(varName);
@@ -119,6 +114,12 @@ namespace SaveAsFIT
             sb.Append(comment);
 
             return sb.ToString().PadRight(80);
+        }
+
+        private static short stackPixels(byte r, byte g, byte b)
+        {
+            //return (short) ((128*r)-32768);
+               return (short)(g * 256);
         }
     }
 }
