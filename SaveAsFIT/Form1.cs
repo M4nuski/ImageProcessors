@@ -11,7 +11,6 @@ namespace SaveAsFITS
 {
     public partial class Form1 : Form
     {
-
         private Bitmap sourceBitmap;
 
         public Form1()
@@ -45,14 +44,14 @@ namespace SaveAsFITS
                 var writer = new BinaryWriter(fileStream);
 
                 //write header
-                for (var i = 0; i < 32; i++)
+                for (var i = 0; i < 36; i++)
                 {
                     writer.Write(Encoding.ASCII.GetBytes(headerStrings[i]));
                 }
 
                 //write data
                 var depth = Image.GetPixelFormatSize(sourceBitmap.PixelFormat);
-                var pixelSize = (depth > 16) ? (depth / 8) : 2;
+                var pixelSize = depth / 8;
                 var pixelBufferSize = sourceBitmap.Width * sourceBitmap.Height * pixelSize;
                 var PixelSource = new byte[pixelBufferSize];
                 var pixData = sourceBitmap.LockBits(new Rectangle(0, 0, sourceBitmap.Width, sourceBitmap.Height), 

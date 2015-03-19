@@ -35,8 +35,9 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.imageControl1 = new ImageControl();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
+            this.imageControl1 = new SaveAsFITS.ImageControl();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,7 +46,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.toolStripMenuItem2,
-            this.toolStripTextBox1});
+            this.toolStripTextBox1,
+            this.toolStripTextBox2});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(668, 31);
@@ -82,6 +84,21 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "fit";
+            // 
+            // toolStripTextBox2
+            // 
+            this.toolStripTextBox2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.toolStripTextBox2.Enabled = false;
+            this.toolStripTextBox2.Name = "toolStripTextBox2";
+            this.toolStripTextBox2.ReadOnly = true;
+            this.toolStripTextBox2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.toolStripTextBox2.Size = new System.Drawing.Size(200, 27);
+            this.toolStripTextBox2.Text = "Emmanuel Charettte 2015";
+            this.toolStripTextBox2.TextBoxTextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
             // imageControl1
             // 
             this.imageControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -96,10 +113,6 @@
             this.imageControl1.SourceImage = null;
             this.imageControl1.TabIndex = 3;
             this.imageControl1.ZoomLevel = 0F;
-            // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.DefaultExt = "fit";
             // 
             // Form1
             // 
@@ -128,6 +141,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox2;
     }
 }
 
