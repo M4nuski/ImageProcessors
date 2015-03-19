@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SaveAsFIT.Properties {
+namespace SaveAsFITS.Properties {
     using System;
     
     

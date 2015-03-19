@@ -1,4 +1,4 @@
-﻿namespace SaveAsFIT
+﻿namespace SaveAsFITS
 {
     partial class ImageControl
     {

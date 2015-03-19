@@ -1,4 +1,4 @@
-﻿namespace SaveAsFIT
+﻿namespace SaveAsFITS
 {
     partial class Form1
     {
@@ -35,7 +35,7 @@
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.imageControl1 = new SaveAsFIT.ImageControl();
+            this.imageControl1 = new ImageControl();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
