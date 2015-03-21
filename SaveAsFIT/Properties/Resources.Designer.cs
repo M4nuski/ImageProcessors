@@ -59,5 +59,15 @@ namespace SaveAsFITS.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap checkeredBG22 {
+            get {
+                object obj = ResourceManager.GetObject("checkeredBG22", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

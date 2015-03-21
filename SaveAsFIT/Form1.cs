@@ -29,6 +29,7 @@ namespace SaveAsFITS
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 sourceBitmap = new Bitmap(openFileDialog1.FileName);
+                imageControl1.SourceAttributes = new ImageAttributes(); 
                 imageControl1.SourceImage = sourceBitmap;
             }
         }
@@ -68,7 +69,6 @@ namespace SaveAsFITS
                         var index = (i * pixData.Stride) + (j * pixelSize);
 
                         writer.Write(stackPixels(PixelSource[index], PixelSource[index + 1], PixelSource[index + 2]));
-                        //   writer.Write(PixelSource[index]);
                     }
                 }
 
@@ -79,13 +79,60 @@ namespace SaveAsFITS
 
         private static short stackPixels(byte r, byte g, byte b)
         {
-            //return (short) ((128*r)-32768);
-               return (short)(g * 256);
+            int stack = (r*256) + (g*256) + (b*256);
+            return (short)(stack/3);
         }
 
         private void toolStripQuit_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void toolStripGrayscale_CheckedChanged(object sender, EventArgs e)
+        {
+            imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
+            imageControl1.Refresh();
+        }
+
+        private float[][] createColorMatrix()
+        {
+            if (toolStripGrayscale.Checked)
+            {
+                var red = (toolStripRed.Checked) ? 1.00f : 0.00f;
+                var green = (toolStripGreen.Checked) ? 1.00f : 0.00f;
+                var blue = (toolStripBlue.Checked) ? 1.00f : 0.00f;
+                //var alpha = (toolStripAlpha.Checked) ? 1.00f : 0.00f;
+                var stack = red + green + blue;
+                red /= stack;
+                green /= stack;
+                blue /= stack;
+                //alpha /= stack;
+                return new[]
+                {
+                    new[] {red  , red  , red  , 0.00f, 0.00f},
+                    new[] {green, green, green, 0.00f, 0.00f},
+                    new[] {blue , blue , blue , 0.00f, 0.00f},
+                    new[] {0.00f, 0.00f, 0.00f, 1.00f, 0.00f},
+                    new[] {0.00f, 0.00f, 0.00f, 0.00f, 1.00f}
+                };
+            }
+            else
+            {
+                var red = (toolStripRed.Checked) ? 1.00f : 0.00f;
+                var green = (toolStripGreen.Checked) ? 1.00f : 0.00f;
+                var blue = (toolStripBlue.Checked) ? 1.00f : 0.00f;
+                var alpha = (toolStripAlpha.Checked) ? 1.00f : 0.00f;
+
+                return new[]
+                {
+                    new[] {red  , 0.00f, 0.00f, 0.00f, 0.00f},
+                    new[] {0.00f, green, 0.00f, 0.00f, 0.00f},
+                    new[] {0.00f, 0.00f, blue , 0.00f, 0.00f},
+                    new[] {0.00f, 0.00f, 0.00f, alpha, 0.00f},
+                    new[] {0.00f, 0.00f, 0.00f, 0.00f, 1.00f}
+                };
+            }
+
         }
     }
 }

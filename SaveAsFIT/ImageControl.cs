@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 namespace SaveAsFITS
@@ -60,6 +61,7 @@ namespace SaveAsFITS
         private int maxPanX, maxPanY;
         private int minPanX, minPanY;
         private bool panning;
+        public ImageAttributes SourceAttributes;
         #endregion
 
         #region UI Methods
@@ -73,7 +75,19 @@ namespace SaveAsFITS
         {
             if (SourceImage != null)
             {
-                e.Graphics.DrawImage(SourceImage, DisplayRectangle, getCurrentRectangle(), GraphicsUnit.Pixel);
+                if (SourceAttributes == null)
+                {
+                    e.Graphics.DrawImage(SourceImage, DisplayRectangle, getCurrentRectangle(), GraphicsUnit.Pixel);
+                }
+                else
+                {
+                    var destinationRectangle = getCurrentRectangle();
+                    e.Graphics.DrawImage(SourceImage, DisplayRectangle, 
+                        destinationRectangle.Left, 
+                        destinationRectangle.Top,
+                        destinationRectangle.Width,
+                        destinationRectangle.Height, GraphicsUnit.Pixel, SourceAttributes);
+                }
             }
         }
 
