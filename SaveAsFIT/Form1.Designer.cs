@@ -40,7 +40,6 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.imageControl1 = new SaveAsFITS.ImageControl();
             this.RedCheckBox = new System.Windows.Forms.CheckBox();
             this.GreenCheckBox = new System.Windows.Forms.CheckBox();
             this.BlueCheckBox = new System.Windows.Forms.CheckBox();
@@ -49,6 +48,7 @@
             this.LuminanceButton = new System.Windows.Forms.Button();
             this.AverageButton = new System.Windows.Forms.Button();
             this.GrayAdjustBox = new System.Windows.Forms.PictureBox();
+            this.imageControl1 = new SaveAsFITS.ImageControl();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GrayAdjustBox)).BeginInit();
             this.SuspendLayout();
@@ -136,22 +136,6 @@
             this.saveFileDialog1.DefaultExt = "fit";
             this.saveFileDialog1.Filter = "FITS|*.fit;*.fits|All Files|*.*";
             // 
-            // imageControl1
-            // 
-            this.imageControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.imageControl1.BackColor = System.Drawing.Color.Gray;
-            this.imageControl1.BackgroundImage = global::SaveAsFITS.Properties.Resources.checkeredBG22;
-            this.imageControl1.Location = new System.Drawing.Point(114, 44);
-            this.imageControl1.MaxZoomLevel = 10F;
-            this.imageControl1.MinimumSize = new System.Drawing.Size(32, 18);
-            this.imageControl1.Name = "imageControl1";
-            this.imageControl1.Size = new System.Drawing.Size(796, 590);
-            this.imageControl1.SourceImage = null;
-            this.imageControl1.TabIndex = 3;
-            this.imageControl1.ZoomLevel = 0F;
-            // 
             // RedCheckBox
             // 
             this.RedCheckBox.AutoSize = true;
@@ -209,7 +193,7 @@
             // 
             // LuminanceButton
             // 
-            this.LuminanceButton.Location = new System.Drawing.Point(8, 285);
+            this.LuminanceButton.Location = new System.Drawing.Point(8, 272);
             this.LuminanceButton.Name = "LuminanceButton";
             this.LuminanceButton.Size = new System.Drawing.Size(100, 23);
             this.LuminanceButton.TabIndex = 9;
@@ -218,7 +202,7 @@
             // 
             // AverageButton
             // 
-            this.AverageButton.Location = new System.Drawing.Point(8, 314);
+            this.AverageButton.Location = new System.Drawing.Point(8, 301);
             this.AverageButton.Name = "AverageButton";
             this.AverageButton.Size = new System.Drawing.Size(100, 23);
             this.AverageButton.TabIndex = 10;
@@ -227,11 +211,29 @@
             // 
             // GrayAdjustBox
             // 
+            this.GrayAdjustBox.BackColor = System.Drawing.Color.Black;
             this.GrayAdjustBox.Location = new System.Drawing.Point(8, 179);
+            this.GrayAdjustBox.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
             this.GrayAdjustBox.Name = "GrayAdjustBox";
-            this.GrayAdjustBox.Size = new System.Drawing.Size(100, 100);
+            this.GrayAdjustBox.Size = new System.Drawing.Size(100, 87);
             this.GrayAdjustBox.TabIndex = 11;
             this.GrayAdjustBox.TabStop = false;
+            // 
+            // imageControl1
+            // 
+            this.imageControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.imageControl1.BackColor = System.Drawing.Color.Gray;
+            this.imageControl1.BackgroundImage = global::SaveAsFITS.Properties.Resources.checkeredBG22;
+            this.imageControl1.Location = new System.Drawing.Point(119, 44);
+            this.imageControl1.MaxZoomLevel = 10F;
+            this.imageControl1.MinimumSize = new System.Drawing.Size(32, 18);
+            this.imageControl1.Name = "imageControl1";
+            this.imageControl1.Size = new System.Drawing.Size(791, 590);
+            this.imageControl1.SourceImage = null;
+            this.imageControl1.TabIndex = 3;
+            this.imageControl1.ZoomLevel = 0F;
             // 
             // Form1
             // 

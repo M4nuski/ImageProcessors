@@ -12,11 +12,15 @@ namespace SaveAsFITS
 {
     public partial class Form1 : Form
     {
-        private Bitmap sourceBitmap;
+        private Bitmap sourceBitmap, grayScaleBitmap;
+        private bool silentUpdate;
 
         public Form1()
         {
             InitializeComponent();
+            grayScaleBitmap = new Bitmap(100,100);
+            //TODO fill bitmap
+            GrayAdjustBox.Image = grayScaleBitmap;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -32,8 +36,10 @@ namespace SaveAsFITS
                 sourceBitmap = new Bitmap(openFileDialog1.FileName);
                 imageControl1.SourceAttributes = new ImageAttributes(); 
                 imageControl1.SourceImage = sourceBitmap;
+                silentUpdate = true;
                 RedCheckBox.Checked = GreenCheckBox.Checked = BlueCheckBox.Checked = AlphaCheckBox.Checked = true;
                 GrayScaleCheckBox.Checked = false;
+                silentUpdate = false;
             }
         }
 
@@ -96,8 +102,11 @@ namespace SaveAsFITS
 
         private void toolStripGrayscale_CheckedChanged(object sender, EventArgs e)
         {
-            imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
-            imageControl1.Refresh();
+            if (!silentUpdate)
+            {
+                imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
+                imageControl1.Refresh();
+            }
         }
 
         private float[][] createColorMatrix()
