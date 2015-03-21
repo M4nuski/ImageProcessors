@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -79,8 +80,11 @@ namespace SaveAsFITS
 
         private static short stackPixels(byte r, byte g, byte b)
         {
-            int stack = (r*256) + (g*256) + (b*256);
-            return (short)(stack/3);
+            var stack = (r + g + b)<<5;
+            var stackbytes = BitConverter.GetBytes(stack);
+            stack = BitConverter.ToInt16(new byte[]{stackbytes[1],stackbytes[0]}, 0);
+
+            return (short)(stack);
         }
 
         private void toolStripQuit_Click(object sender, EventArgs e)

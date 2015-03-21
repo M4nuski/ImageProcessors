@@ -60,7 +60,7 @@
             this.toolStripTextBox1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(668, 31);
+            this.menuStrip1.Size = new System.Drawing.Size(924, 31);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -189,6 +189,7 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "Image Files|*.bmp;*.gif;*.exif;*.jpg;*.png;*.tiff;*.tif|All Files|*.*";
             // 
             // timer1
             // 
@@ -198,6 +199,7 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "fit";
+            this.saveFileDialog1.Filter = "FITS|*.fit;*.fits|All Files|*.*";
             // 
             // imageControl1
             // 
@@ -206,11 +208,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageControl1.BackColor = System.Drawing.Color.Gray;
             this.imageControl1.BackgroundImage = global::SaveAsFITS.Properties.Resources.checkeredBG22;
-            this.imageControl1.Location = new System.Drawing.Point(12, 44);
+            this.imageControl1.Location = new System.Drawing.Point(138, 44);
             this.imageControl1.MaxZoomLevel = 10F;
             this.imageControl1.MinimumSize = new System.Drawing.Size(32, 18);
             this.imageControl1.Name = "imageControl1";
-            this.imageControl1.Size = new System.Drawing.Size(642, 460);
+            this.imageControl1.Size = new System.Drawing.Size(772, 590);
             this.imageControl1.SourceImage = null;
             this.imageControl1.TabIndex = 3;
             this.imageControl1.ZoomLevel = 0F;
@@ -219,7 +221,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(668, 516);
+            this.ClientSize = new System.Drawing.Size(924, 646);
             this.Controls.Add(this.imageControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
