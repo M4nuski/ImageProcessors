@@ -35,27 +35,28 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripRed = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripGreen = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripBlue = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripAlpha = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripGrayscale = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripTextBox2 = new System.Windows.Forms.ToolStripTextBox();
             this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.imageControl1 = new SaveAsFITS.ImageControl();
+            this.RedCheckBox = new System.Windows.Forms.CheckBox();
+            this.GreenCheckBox = new System.Windows.Forms.CheckBox();
+            this.BlueCheckBox = new System.Windows.Forms.CheckBox();
+            this.AlphaCheckBox = new System.Windows.Forms.CheckBox();
+            this.GrayScaleCheckBox = new System.Windows.Forms.CheckBox();
+            this.LuminanceButton = new System.Windows.Forms.Button();
+            this.AverageButton = new System.Windows.Forms.Button();
+            this.GrayAdjustBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GrayAdjustBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
             this.toolStripTextBox2,
             this.toolStripTextBox1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -101,72 +102,6 @@
             this.toolStripMenuItem5.Text = "Quit";
             this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripQuit_Click);
             // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripRed,
-            this.toolStripGreen,
-            this.toolStripBlue,
-            this.toolStripAlpha,
-            this.toolStripSeparator2,
-            this.toolStripGrayscale});
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(124, 27);
-            this.toolStripMenuItem2.Text = "Select Channels";
-            // 
-            // toolStripRed
-            // 
-            this.toolStripRed.Checked = true;
-            this.toolStripRed.CheckOnClick = true;
-            this.toolStripRed.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripRed.Name = "toolStripRed";
-            this.toolStripRed.Size = new System.Drawing.Size(199, 24);
-            this.toolStripRed.Text = "Red";
-            this.toolStripRed.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
-            // 
-            // toolStripGreen
-            // 
-            this.toolStripGreen.Checked = true;
-            this.toolStripGreen.CheckOnClick = true;
-            this.toolStripGreen.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripGreen.Name = "toolStripGreen";
-            this.toolStripGreen.Size = new System.Drawing.Size(199, 24);
-            this.toolStripGreen.Text = "Green";
-            this.toolStripGreen.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
-            // 
-            // toolStripBlue
-            // 
-            this.toolStripBlue.Checked = true;
-            this.toolStripBlue.CheckOnClick = true;
-            this.toolStripBlue.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripBlue.Name = "toolStripBlue";
-            this.toolStripBlue.Size = new System.Drawing.Size(199, 24);
-            this.toolStripBlue.Text = "Blue";
-            this.toolStripBlue.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
-            // 
-            // toolStripAlpha
-            // 
-            this.toolStripAlpha.Checked = true;
-            this.toolStripAlpha.CheckOnClick = true;
-            this.toolStripAlpha.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.toolStripAlpha.Name = "toolStripAlpha";
-            this.toolStripAlpha.Size = new System.Drawing.Size(199, 24);
-            this.toolStripAlpha.Text = "Alpha";
-            this.toolStripAlpha.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(196, 6);
-            // 
-            // toolStripGrayscale
-            // 
-            this.toolStripGrayscale.CheckOnClick = true;
-            this.toolStripGrayscale.Name = "toolStripGrayscale";
-            this.toolStripGrayscale.Size = new System.Drawing.Size(199, 24);
-            this.toolStripGrayscale.Text = "View As GrayScale";
-            this.toolStripGrayscale.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
-            // 
             // toolStripTextBox2
             // 
             this.toolStripTextBox2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -208,20 +143,109 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.imageControl1.BackColor = System.Drawing.Color.Gray;
             this.imageControl1.BackgroundImage = global::SaveAsFITS.Properties.Resources.checkeredBG22;
-            this.imageControl1.Location = new System.Drawing.Point(138, 44);
+            this.imageControl1.Location = new System.Drawing.Point(114, 44);
             this.imageControl1.MaxZoomLevel = 10F;
             this.imageControl1.MinimumSize = new System.Drawing.Size(32, 18);
             this.imageControl1.Name = "imageControl1";
-            this.imageControl1.Size = new System.Drawing.Size(772, 590);
+            this.imageControl1.Size = new System.Drawing.Size(796, 590);
             this.imageControl1.SourceImage = null;
             this.imageControl1.TabIndex = 3;
             this.imageControl1.ZoomLevel = 0F;
+            // 
+            // RedCheckBox
+            // 
+            this.RedCheckBox.AutoSize = true;
+            this.RedCheckBox.Location = new System.Drawing.Point(8, 44);
+            this.RedCheckBox.Name = "RedCheckBox";
+            this.RedCheckBox.Size = new System.Drawing.Size(56, 21);
+            this.RedCheckBox.TabIndex = 4;
+            this.RedCheckBox.Text = "Red";
+            this.RedCheckBox.UseVisualStyleBackColor = true;
+            this.RedCheckBox.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
+            // 
+            // GreenCheckBox
+            // 
+            this.GreenCheckBox.AutoSize = true;
+            this.GreenCheckBox.Location = new System.Drawing.Point(8, 71);
+            this.GreenCheckBox.Name = "GreenCheckBox";
+            this.GreenCheckBox.Size = new System.Drawing.Size(70, 21);
+            this.GreenCheckBox.TabIndex = 5;
+            this.GreenCheckBox.Text = "Green";
+            this.GreenCheckBox.UseVisualStyleBackColor = true;
+            this.GreenCheckBox.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
+            // 
+            // BlueCheckBox
+            // 
+            this.BlueCheckBox.AutoSize = true;
+            this.BlueCheckBox.Location = new System.Drawing.Point(8, 98);
+            this.BlueCheckBox.Name = "BlueCheckBox";
+            this.BlueCheckBox.Size = new System.Drawing.Size(58, 21);
+            this.BlueCheckBox.TabIndex = 6;
+            this.BlueCheckBox.Text = "Blue";
+            this.BlueCheckBox.UseVisualStyleBackColor = true;
+            this.BlueCheckBox.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
+            // 
+            // AlphaCheckBox
+            // 
+            this.AlphaCheckBox.AutoSize = true;
+            this.AlphaCheckBox.Location = new System.Drawing.Point(8, 125);
+            this.AlphaCheckBox.Name = "AlphaCheckBox";
+            this.AlphaCheckBox.Size = new System.Drawing.Size(66, 21);
+            this.AlphaCheckBox.TabIndex = 7;
+            this.AlphaCheckBox.Text = "Alpha";
+            this.AlphaCheckBox.UseVisualStyleBackColor = true;
+            this.AlphaCheckBox.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
+            // 
+            // GrayScaleCheckBox
+            // 
+            this.GrayScaleCheckBox.AutoSize = true;
+            this.GrayScaleCheckBox.Location = new System.Drawing.Point(8, 152);
+            this.GrayScaleCheckBox.Name = "GrayScaleCheckBox";
+            this.GrayScaleCheckBox.Size = new System.Drawing.Size(100, 21);
+            this.GrayScaleCheckBox.TabIndex = 8;
+            this.GrayScaleCheckBox.Text = "Gray Scale";
+            this.GrayScaleCheckBox.UseVisualStyleBackColor = true;
+            this.GrayScaleCheckBox.CheckedChanged += new System.EventHandler(this.toolStripGrayscale_CheckedChanged);
+            // 
+            // LuminanceButton
+            // 
+            this.LuminanceButton.Location = new System.Drawing.Point(8, 285);
+            this.LuminanceButton.Name = "LuminanceButton";
+            this.LuminanceButton.Size = new System.Drawing.Size(100, 23);
+            this.LuminanceButton.TabIndex = 9;
+            this.LuminanceButton.Text = "Luminance";
+            this.LuminanceButton.UseVisualStyleBackColor = true;
+            // 
+            // AverageButton
+            // 
+            this.AverageButton.Location = new System.Drawing.Point(8, 314);
+            this.AverageButton.Name = "AverageButton";
+            this.AverageButton.Size = new System.Drawing.Size(100, 23);
+            this.AverageButton.TabIndex = 10;
+            this.AverageButton.Text = "Average";
+            this.AverageButton.UseVisualStyleBackColor = true;
+            // 
+            // GrayAdjustBox
+            // 
+            this.GrayAdjustBox.Location = new System.Drawing.Point(8, 179);
+            this.GrayAdjustBox.Name = "GrayAdjustBox";
+            this.GrayAdjustBox.Size = new System.Drawing.Size(100, 100);
+            this.GrayAdjustBox.TabIndex = 11;
+            this.GrayAdjustBox.TabStop = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(924, 646);
+            this.Controls.Add(this.GrayAdjustBox);
+            this.Controls.Add(this.AverageButton);
+            this.Controls.Add(this.LuminanceButton);
+            this.Controls.Add(this.GrayScaleCheckBox);
+            this.Controls.Add(this.AlphaCheckBox);
+            this.Controls.Add(this.BlueCheckBox);
+            this.Controls.Add(this.GreenCheckBox);
+            this.Controls.Add(this.RedCheckBox);
             this.Controls.Add(this.imageControl1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -229,6 +253,7 @@
             this.Text = "SaveAsFITS";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GrayAdjustBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -238,7 +263,6 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private ImageControl imageControl1;
         private System.Windows.Forms.Timer timer1;
@@ -249,12 +273,14 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem toolStripRed;
-        private System.Windows.Forms.ToolStripMenuItem toolStripGreen;
-        private System.Windows.Forms.ToolStripMenuItem toolStripBlue;
-        private System.Windows.Forms.ToolStripMenuItem toolStripAlpha;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripGrayscale;
+        private System.Windows.Forms.CheckBox RedCheckBox;
+        private System.Windows.Forms.CheckBox GreenCheckBox;
+        private System.Windows.Forms.CheckBox BlueCheckBox;
+        private System.Windows.Forms.CheckBox AlphaCheckBox;
+        private System.Windows.Forms.CheckBox GrayScaleCheckBox;
+        private System.Windows.Forms.Button LuminanceButton;
+        private System.Windows.Forms.Button AverageButton;
+        private System.Windows.Forms.PictureBox GrayAdjustBox;
     }
 }
 

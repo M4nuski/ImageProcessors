@@ -32,6 +32,8 @@ namespace SaveAsFITS
                 sourceBitmap = new Bitmap(openFileDialog1.FileName);
                 imageControl1.SourceAttributes = new ImageAttributes(); 
                 imageControl1.SourceImage = sourceBitmap;
+                RedCheckBox.Checked = GreenCheckBox.Checked = BlueCheckBox.Checked = AlphaCheckBox.Checked = true;
+                GrayScaleCheckBox.Checked = false;
             }
         }
 
@@ -82,7 +84,7 @@ namespace SaveAsFITS
         {
             var stack = (r + g + b)<<5;
             var stackbytes = BitConverter.GetBytes(stack);
-            stack = BitConverter.ToInt16(new byte[]{stackbytes[1],stackbytes[0]}, 0);
+            stack = BitConverter.ToInt16(new []{stackbytes[1],stackbytes[0]}, 0);
 
             return (short)(stack);
         }
@@ -100,12 +102,12 @@ namespace SaveAsFITS
 
         private float[][] createColorMatrix()
         {
-            if (toolStripGrayscale.Checked)
+            if (GrayScaleCheckBox.Checked)
             {
-                var red = (toolStripRed.Checked) ? 1.00f : 0.00f;
-                var green = (toolStripGreen.Checked) ? 1.00f : 0.00f;
-                var blue = (toolStripBlue.Checked) ? 1.00f : 0.00f;
-                //var alpha = (toolStripAlpha.Checked) ? 1.00f : 0.00f;
+                var red = (RedCheckBox.Checked) ? 1.00f : 0.00f;
+                var green = (GreenCheckBox.Checked) ? 1.00f : 0.00f;
+                var blue = (BlueCheckBox.Checked) ? 1.00f : 0.00f;
+                //var alpha = (AlphaCheckBox.Checked) ? 1.00f : 0.00f;
                 var stack = red + green + blue;
                 red /= stack;
                 green /= stack;
@@ -122,10 +124,10 @@ namespace SaveAsFITS
             }
             else
             {
-                var red = (toolStripRed.Checked) ? 1.00f : 0.00f;
-                var green = (toolStripGreen.Checked) ? 1.00f : 0.00f;
-                var blue = (toolStripBlue.Checked) ? 1.00f : 0.00f;
-                var alpha = (toolStripAlpha.Checked) ? 1.00f : 0.00f;
+                var red = (RedCheckBox.Checked) ? 1.00f : 0.00f;
+                var green = (GreenCheckBox.Checked) ? 1.00f : 0.00f;
+                var blue = (BlueCheckBox.Checked) ? 1.00f : 0.00f;
+                var alpha = (AlphaCheckBox.Checked) ? 1.00f : 0.00f;
 
                 return new[]
                 {
