@@ -49,6 +49,9 @@
             this.AverageButton = new System.Windows.Forms.Button();
             this.GrayAdjustBox = new System.Windows.Forms.PictureBox();
             this.imageControl1 = new SaveAsFITS.ImageControl();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.GrayAdjustBox)).BeginInit();
             this.SuspendLayout();
@@ -199,6 +202,7 @@
             this.LuminanceButton.TabIndex = 9;
             this.LuminanceButton.Text = "Luminance";
             this.LuminanceButton.UseVisualStyleBackColor = true;
+            this.LuminanceButton.Click += new System.EventHandler(this.LuminanceButton_Click);
             // 
             // AverageButton
             // 
@@ -208,16 +212,21 @@
             this.AverageButton.TabIndex = 10;
             this.AverageButton.Text = "Average";
             this.AverageButton.UseVisualStyleBackColor = true;
+            this.AverageButton.Click += new System.EventHandler(this.AverageButton_Click);
             // 
             // GrayAdjustBox
             // 
             this.GrayAdjustBox.BackColor = System.Drawing.Color.Black;
+            this.GrayAdjustBox.Cursor = System.Windows.Forms.Cursors.Cross;
             this.GrayAdjustBox.Location = new System.Drawing.Point(8, 179);
             this.GrayAdjustBox.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
             this.GrayAdjustBox.Name = "GrayAdjustBox";
             this.GrayAdjustBox.Size = new System.Drawing.Size(100, 87);
             this.GrayAdjustBox.TabIndex = 11;
             this.GrayAdjustBox.TabStop = false;
+            this.GrayAdjustBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GrayAdjustBox_MouseDown);
+            this.GrayAdjustBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.GrayAdjustBox_MouseMove);
+            this.GrayAdjustBox.MouseUp += new System.Windows.Forms.MouseEventHandler(this.GrayAdjustBox_MouseUp);
             // 
             // imageControl1
             // 
@@ -235,11 +244,41 @@
             this.imageControl1.TabIndex = 3;
             this.imageControl1.ZoomLevel = 0F;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 338);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(46, 17);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "label1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(11, 355);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 17);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "label2";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(11, 372);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(46, 17);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "label3";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(924, 646);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.GrayAdjustBox);
             this.Controls.Add(this.AverageButton);
             this.Controls.Add(this.LuminanceButton);
@@ -283,6 +322,9 @@
         private System.Windows.Forms.Button LuminanceButton;
         private System.Windows.Forms.Button AverageButton;
         private System.Windows.Forms.PictureBox GrayAdjustBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 
