@@ -18,22 +18,26 @@ namespace SaveAsFITS
         private float redGrayFactor = 0.2126f;
         private float greenGrayFactor = 0.7151f;
         private float blueGrayFactor = 0.0723f;
+        private int gHeight;
+        private int gWidth;
 
         public Form1()
         {
             InitializeComponent();
-            var grayScaleBitmap = new Bitmap(100, 87);
-            for (int y = 0; y < 87; y++)
+            gHeight = GrayAdjustBox.Height;
+            gWidth = GrayAdjustBox.Width;
+            var grayScaleBitmap = new Bitmap(gWidth, gHeight);
+            for (var y = 0; y < gHeight; y++)
             {
-                for (int x = 0; x < 100; x++)
+                for (var x = 0; x < gWidth; x++)
                 {
                     //red origin = 50, 0
                     //green origin = 0, 87
                     //blue origin = 100, 87
-                    var redFactor = 255-Math.Min(GetDistance(x, y, 50, 0) * 2.55f, 255);
-                    var greenFactor =  255-Math.Min(GetDistance(x, y, 0, 87) * 2.55f, 255);
-                    var blueFactor = 255-Math.Min(GetDistance(x, y, 100, 87) * 2.55f, 255);
-                    if ((((87-y) * 50) < ((100-x)*87))&(((87-y) * 50) < (x*87))) grayScaleBitmap.SetPixel(x, y, Color.FromArgb((int)redFactor, (int)greenFactor, (int)blueFactor));
+                    var redFactor = 255 - Math.Min(GetDistance(x, y, gWidth / 2, 0) * 2.55f, 255);
+                    var greenFactor = 255 - Math.Min(GetDistance(x, y, 0, gHeight) * 2.55f, 255);
+                    var blueFactor = 255 - Math.Min(GetDistance(x, y, gWidth, gHeight) * 2.55f, 255);
+                    if ((((gHeight - y) * (gWidth / 2)) < ((gWidth - x) * gHeight)) & (((gHeight - y) * (gWidth / 2)) < (x * gHeight))) grayScaleBitmap.SetPixel(x, y, Color.FromArgb((int)redFactor, (int)greenFactor, (int)blueFactor));
                 }
             }
             GrayAdjustBox.Image = grayScaleBitmap;
@@ -44,13 +48,13 @@ namespace SaveAsFITS
             var dx = originX - x;
             var dy = originY - y;
 
-            return (float)Math.Sqrt((dx*dx) + (dy*dy));
+            return (float)Math.Sqrt((dx * dx) + (dy * dy));
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             if (toolStripTextBox1.TextBox != null)
-                toolStripTextBox1.TextBox.Text = (imageControl1.ZoomLevel*100).ToString("F0") + "%";
+                toolStripTextBox1.TextBox.Text = (imageControl1.ZoomLevel * 100).ToString("F0") + "%";
         }
 
         private void toolStripLoadImage_Click(object sender, EventArgs e)
@@ -58,7 +62,7 @@ namespace SaveAsFITS
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 sourceBitmap = new Bitmap(openFileDialog1.FileName);
-                imageControl1.SourceAttributes = new ImageAttributes(); 
+                imageControl1.SourceAttributes = new ImageAttributes();
                 imageControl1.SourceImage = sourceBitmap;
                 silentUpdate = true;
                 RedCheckBox.Checked = GreenCheckBox.Checked = BlueCheckBox.Checked = AlphaCheckBox.Checked = true;
@@ -107,14 +111,14 @@ namespace SaveAsFITS
 
                 fileStream.Flush();
                 fileStream.Dispose();
-            } 
+            }
         }
 
         private static short stackPixels(byte r, byte g, byte b)
         {
-            var stack = (r + g + b)<<5;
+            var stack = (r + g + b) << 5;
             var stackbytes = BitConverter.GetBytes(stack);
-            stack = BitConverter.ToInt16(new []{stackbytes[1],stackbytes[0]}, 0);
+            stack = BitConverter.ToInt16(new[] { stackbytes[1], stackbytes[0] }, 0);
 
             return (short)(stack);
         }
@@ -195,11 +199,11 @@ namespace SaveAsFITS
 
         private void AverageButton_Click(object sender, EventArgs e)
         {
-             /*
-             .3333 R
-             .3334 G
-             .3333 B             
-             */
+            /*
+            .3333 R
+            .3334 G
+            .3333 B             
+            */
             redGrayFactor = 0.3333f;
             greenGrayFactor = 0.3334f;
             blueGrayFactor = 0.3333f;
@@ -222,10 +226,10 @@ namespace SaveAsFITS
         {
             if (pickingColor)
             {
-                var redFactor = 1.0f - Math.Min(GetDistance(e.X, e.Y, 50, 0) / 100.0f, 1.0f);
-                var greenFactor = 1.0f - Math.Min(GetDistance(e.X, e.Y, 0, 87) / 100.0f, 1.0f);
-                var blueFactor = 1.0f - Math.Min(GetDistance(e.X, e.Y, 100, 87) / 100.0f, 1.0f);
-                if ((((87 - e.Y)*50) < ((100 - e.X)*87)) & (((87 - e.Y)*50) < (e.X*87)))
+                var redFactor = 1.0f - Math.Min(GetDistance(e.X, e.Y, (gWidth / 2), 0) / 100.0f, 1.0f);
+                var greenFactor = 1.0f - Math.Min(GetDistance(e.X, e.Y, 0, gHeight) / 100.0f, 1.0f);
+                var blueFactor = 1.0f - Math.Min(GetDistance(e.X, e.Y, gWidth, gHeight) / 100.0f, 1.0f);
+                if ((((gHeight - e.Y) * (gWidth / 2)) < ((gWidth - e.X) * gHeight)) & (((gHeight - e.Y) * (gWidth / 2)) < (e.X * gHeight)))
                 {
                     redGrayFactor = redFactor;
                     greenGrayFactor = greenFactor;
