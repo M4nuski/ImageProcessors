@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageSharpener", "ImageSharpener\ImageSharpener.csproj", "{5CC961B0-B718-40EE-BCB1-5A4DC0E5E91B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgoTest1", "AlgoTest1\AlgoTest1.csproj", "{26B931CB-E930-48D3-8DF2-EFD565A302FB}"
@@ -8,6 +10,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChannelStacker", "ChannelStacker\ChannelStacker.csproj", "{FFEA8692-D6DE-47E3-8A74-A11F8B7086E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaveAsFITS", "SaveAsFIT\SaveAsFITS.csproj", "{E4AF03E6-6189-4DE8-9BFE-512925428ABB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCaptureTest1", "WinCaptureTest1\WinCaptureTest1.csproj", "{3292771B-7688-4973-8959-A058CA41B9D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinCaptureTest2", "WinCaptureTest2\WinCaptureTest2.csproj", "{B436B261-96C1-48B6-A19B-1F6C23E60A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFT_Data_Manager", "TFT_Data_Manager\TFT_Data_Manager.csproj", "{8BC96D2D-A74F-47A1-9A2F-85541A9C59A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +39,18 @@ Global
 		{E4AF03E6-6189-4DE8-9BFE-512925428ABB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4AF03E6-6189-4DE8-9BFE-512925428ABB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4AF03E6-6189-4DE8-9BFE-512925428ABB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3292771B-7688-4973-8959-A058CA41B9D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3292771B-7688-4973-8959-A058CA41B9D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3292771B-7688-4973-8959-A058CA41B9D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3292771B-7688-4973-8959-A058CA41B9D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B436B261-96C1-48B6-A19B-1F6C23E60A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B436B261-96C1-48B6-A19B-1F6C23E60A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B436B261-96C1-48B6-A19B-1F6C23E60A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B436B261-96C1-48B6-A19B-1F6C23E60A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BC96D2D-A74F-47A1-9A2F-85541A9C59A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BC96D2D-A74F-47A1-9A2F-85541A9C59A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BC96D2D-A74F-47A1-9A2F-85541A9C59A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BC96D2D-A74F-47A1-9A2F-85541A9C59A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

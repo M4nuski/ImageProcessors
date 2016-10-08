@@ -41,6 +41,9 @@ namespace SaveAsFITS
                 }
             }
             GrayAdjustBox.Image = grayScaleBitmap;
+            label1.Text = "R:" + redGrayFactor.ToString("F4");
+            label2.Text = "G:" + greenGrayFactor.ToString("F4");
+            label3.Text = "B:" + blueGrayFactor.ToString("F4");
         }
 
         private static float GetDistance(int x, int y, int originX, int originY)
@@ -130,7 +133,7 @@ namespace SaveAsFITS
 
         private void toolStripGrayscale_CheckedChanged(object sender, EventArgs e)
         {
-            if (!silentUpdate)
+            if (!silentUpdate && (imageControl1.SourceAttributes != null))
             {
                 imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
                 imageControl1.Refresh();
@@ -193,7 +196,7 @@ namespace SaveAsFITS
             greenGrayFactor = 0.7151f;
             blueGrayFactor = 0.0723f;
             GrayScaleCheckBox.Checked = true;
-            imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
+            if (imageControl1.SourceAttributes != null) imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
             imageControl1.Refresh();
         }
 
@@ -208,7 +211,7 @@ namespace SaveAsFITS
             greenGrayFactor = 0.3334f;
             blueGrayFactor = 0.3333f;
             GrayScaleCheckBox.Checked = true;
-            imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
+            if (imageControl1.SourceAttributes != null) imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
             imageControl1.Refresh();
         }
 
@@ -234,7 +237,7 @@ namespace SaveAsFITS
                     redGrayFactor = redFactor;
                     greenGrayFactor = greenFactor;
                     blueGrayFactor = blueFactor;
-                    imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
+                    if (imageControl1.SourceAttributes != null) imageControl1.SourceAttributes.SetColorMatrix(new ColorMatrix(createColorMatrix()));
                     imageControl1.Refresh();
                 }
             }
