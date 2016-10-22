@@ -18,9 +18,12 @@ namespace TFT_Data_Manager
         public struct imageData
         {
             public string SourcePath; //fullpath or relative to location of database file
+
+            [JsonIgnore]
             public Bitmap SourceBitmap;
-            //     public Bitmap ResultBitmap;
-            public byte[,,] ResultBytes; // new byte[128, 160, 3]; 128 rows, 160 columns, 3 bytes per pixel (RGB888) 
+
+            //  public Bitmap ResultBitmap;
+            //  public byte[,,] ResultBytes; // new byte[128, 160, 3]; 128 rows, 160 columns, 3 bytes per pixel (RGB888) 
             public int top, left, width, height;
             public int index;
         }
@@ -29,16 +32,16 @@ namespace TFT_Data_Manager
 
         public struct rawTFTDTA
         {
-            public byte RGB_Code; // 565:05h 666:06h
+            public byte RGB_Code; // 565:55h 666:66h : set COLMOD
             public byte num_images; // 0-255
             public ushort bytes_per_image; // 565:A000h 666:F000h
-            public byte MADCTL;
+            public byte MADCTL; //set MADCTL
             public byte[] data;
 
         }
 
         private Brush clearBrush = new SolidBrush(Color.Green);
-        private float sourceAR = 640f / 480f;
+        private const float sourceAR = 640f/480f;
         private bool updatingTrackBars;
 
         private Bitmap currentWorkingBitmap;
@@ -66,16 +69,20 @@ namespace TFT_Data_Manager
                     height = Convert.ToInt32(HeightTextBox.Text)
                 });
 
-                var bmpBuffer = new Bitmap(previewLabel.ClientRectangle.Width, previewLabel.ClientRectangle.Height);
-                previewLabel.DrawToBitmap(bmpBuffer, previewLabel.ClientRectangle);
-                bmpBuffer = new Bitmap(bmpBuffer, 80, 64);
-
-                thumbnailList.Images.Add(new_key, bmpBuffer);
-
-                bmpBuffer.Dispose();
-
-                listView1.Items.Add(Path.GetFileName(currentWorkingImagePath), new_key);
+                addElementToList(new_key, imageDataList[new_key]);
             }
+        }
+
+        private void addElementToList(string key, imageData img)
+        {
+            using(var bmpBuffer = new Bitmap(80, 64))
+            using(var g = Graphics.FromImage(bmpBuffer))
+            {
+                g.DrawImage(img.SourceBitmap, new Rectangle(0, 0, 80, 64), img.left, img.top, img.width, img.height, GraphicsUnit.Pixel);
+                thumbnailList.Images.Add(key, bmpBuffer);
+            } 
+
+            listView1.Items.Add(Path.GetFileName(img.SourcePath), key);
         }
 
         private void OpenDataMenuItem_Click(object sender, EventArgs e)
@@ -83,6 +90,27 @@ namespace TFT_Data_Manager
             if (openLIBFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 //open library file
+
+                try
+                {
+
+                    var data = File.ReadAllText(openLIBFileDialog1.FileName);
+                    var buffer = JsonConvert.DeserializeObject<Dictionary<string, imageData>>(data);
+
+                    thumbnailList.Images.Clear();
+                    listView1.Items.Clear();
+                    imageDataList.Clear();
+
+                    foreach (var VARIABLE in buffer)
+                    {
+                        imageDataList.Add(VARIABLE.Key, addSourceBitmap(buffer[VARIABLE.Key]));
+                        addElementToList(VARIABLE.Key, imageDataList[VARIABLE.Key]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error Loading Library", MessageBoxButtons.OK);
+                }
             }
         }
 
@@ -91,9 +119,53 @@ namespace TFT_Data_Manager
             if (saveLIBFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 //save library file
+
+                for (var i = 0; i < listView1.Items.Count; i++)
+                {
+                    imageDataList[listView1.Items[i].ImageKey] = addIndex(imageDataList[listView1.Items[i].ImageKey], listView1.Items[i].Index);
+                }
                 var data = JsonConvert.SerializeObject(imageDataList, Formatting.Indented);
                 Debug.WriteLine(data);
+
+                File.WriteAllText(saveLIBFileDialog1.FileName, data);
             }
+        }
+
+        private static imageData addIndex(imageData img, int newIndex)
+        {
+            return new imageData()
+            {
+                SourceBitmap = img.SourceBitmap,
+                SourcePath = img.SourcePath,
+                top = img.top,
+                left = img.left,
+                width = img.width,
+                height = img.height,
+                index = newIndex
+            };
+        }
+
+        private static imageData addSourceBitmap(imageData img)
+        {
+            try
+            {
+                var bmpBuffer = new Bitmap(img.SourcePath);
+                return new imageData()
+                {
+                    SourceBitmap = bmpBuffer,
+                    SourcePath = img.SourcePath,
+                    top = img.top,
+                    left = img.left,
+                    width = img.width,
+                    height = img.height,
+                    index = img.index
+                };
+            }
+            catch (Exception)
+            {
+                return img;
+            }
+
         }
 
         private void FlashMemoryMenuItem_Click(object sender, EventArgs e)
@@ -275,6 +347,7 @@ namespace TFT_Data_Manager
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //if (listView1.SelectedIndices.Count > 0) Text = listView1.SelectedIndices[0].ToString();
+            //TODO set the sourceLabel + previewLabel + textboxes + sliders according to listviewitem
         }
 
         private void forceUpdateCrappyListViewBehaviour()
