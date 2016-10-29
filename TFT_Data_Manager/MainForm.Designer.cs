@@ -67,6 +67,8 @@
             this.checkBox6 = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.addFromLibToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.leftTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rightTrackBar)).BeginInit();
@@ -78,6 +80,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.OpenDataMenuItem,
+            this.addFromLibToolStripMenuItem,
             this.SaveAsMenuItem,
             this.FlashMemoryMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -89,22 +92,22 @@
             // OpenDataMenuItem
             // 
             this.OpenDataMenuItem.Name = "OpenDataMenuItem";
-            this.OpenDataMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.OpenDataMenuItem.Text = "Open";
+            this.OpenDataMenuItem.Size = new System.Drawing.Size(67, 20);
+            this.OpenDataMenuItem.Text = "Open LIb";
             this.OpenDataMenuItem.Click += new System.EventHandler(this.OpenDataMenuItem_Click);
             // 
             // SaveAsMenuItem
             // 
             this.SaveAsMenuItem.Name = "SaveAsMenuItem";
-            this.SaveAsMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.SaveAsMenuItem.Text = "Save As";
+            this.SaveAsMenuItem.Size = new System.Drawing.Size(78, 20);
+            this.SaveAsMenuItem.Text = "Save Lib As";
             this.SaveAsMenuItem.Click += new System.EventHandler(this.SaveAsMenuItem_Click);
             // 
             // FlashMemoryMenuItem
             // 
             this.FlashMemoryMenuItem.Name = "FlashMemoryMenuItem";
-            this.FlashMemoryMenuItem.Size = new System.Drawing.Size(52, 20);
-            this.FlashMemoryMenuItem.Text = "Export";
+            this.FlashMemoryMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.FlashMemoryMenuItem.Text = "Export Data";
             this.FlashMemoryMenuItem.Click += new System.EventHandler(this.FlashMemoryMenuItem_Click);
             // 
             // listView1
@@ -255,7 +258,6 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(156, 21);
             this.comboBox1.TabIndex = 15;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // leftTrackBar
             // 
@@ -445,11 +447,28 @@
             this.label4.TabIndex = 31;
             this.label4.Text = "RGB type / Max Image Quantity";
             // 
+            // addFromLibToolStripMenuItem
+            // 
+            this.addFromLibToolStripMenuItem.Name = "addFromLibToolStripMenuItem";
+            this.addFromLibToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.addFromLibToolStripMenuItem.Text = "Add From Lib";
+            this.addFromLibToolStripMenuItem.Click += new System.EventHandler(this.addFromLibToolStripMenuItem_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(199, 720);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.TabIndex = 32;
+            this.label5.Text = "0 / 255";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1265, 753);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.checkBox6);
@@ -536,6 +555,8 @@
         private System.Windows.Forms.CheckBox checkBox6;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ToolStripMenuItem addFromLibToolStripMenuItem;
+        private System.Windows.Forms.Label label5;
     }
 }
 

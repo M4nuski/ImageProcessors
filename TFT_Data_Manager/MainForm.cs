@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -22,8 +17,6 @@ namespace TFT_Data_Manager
             [JsonIgnore]
             public Bitmap SourceBitmap;
 
-            //  public Bitmap ResultBitmap;
-            //  public byte[,,] ResultBytes; // new byte[128, 160, 3]; 128 rows, 160 columns, 3 bytes per pixel (RGB888) 
             public int top, left, width, height;
             public int index;
         }
@@ -32,16 +25,16 @@ namespace TFT_Data_Manager
 
         public struct rawTFTDTA
         {
-            public byte COLMOD; // 565:55h 666:66h : set COLMOD
+            public byte COLMOD; // 444:33h 666:66h : set COLMOD
             public byte MADCTL; //set MADCTL
             public byte num_images; // 0-255
-            public ushort bytes_per_image; // 565:A000h 666:F000h
-            public byte[,] data; // new byte[num_images, bytes_per_image] - sector alignment to be done on transfer
+            public ushort bytes_per_image; // 444:7800h 666:F000h
+            public byte[][] data; // new byte[num_images][bytes_per_image] - sector alignment to be done on transfer
 
         }
 
         private Brush clearBrush = new SolidBrush(Color.Green);
-        private const float sourceAR = 640f/480f;
+        private const float sourceAR = 640f / 480f;
         private bool updatingTrackBars;
 
         private Bitmap currentWorkingBitmap;
@@ -52,7 +45,7 @@ namespace TFT_Data_Manager
             InitializeComponent();
             comboBox1.SelectedIndex = 0;
             comboBox1.Text = comboBox1.Items[0].ToString();
-            
+
         }
 
 
@@ -66,7 +59,7 @@ namespace TFT_Data_Manager
 
                     imageDataList.Add(new_key, new imageData()
                     {
-                        SourceBitmap = currentWorkingBitmap,
+                        SourceBitmap = new Bitmap(currentWorkingBitmap),
                         SourcePath = currentWorkingImagePath,
                         top = Convert.ToInt32(TopTextBox.Text),
                         left = Convert.ToInt32(LeftTextBox.Text),
@@ -82,14 +75,15 @@ namespace TFT_Data_Manager
 
         private void addElementToList(string key, imageData img)
         {
-            using(var bmpBuffer = new Bitmap(80, 64))
-            using(var g = Graphics.FromImage(bmpBuffer))
+            using (var bmpBuffer = new Bitmap(80, 64))
+            using (var g = Graphics.FromImage(bmpBuffer))
             {
                 g.DrawImage(img.SourceBitmap, new Rectangle(0, 0, 80, 64), img.left, img.top, img.width, img.height, GraphicsUnit.Pixel);
                 thumbnailList.Images.Add(key, bmpBuffer);
-            } 
+            }
 
             listView1.Items.Add(Path.GetFileName(img.SourcePath), key);
+            label5.Text = listView1.Items.Count.ToString() + " / 255";
         }
 
         private void OpenDataMenuItem_Click(object sender, EventArgs e)
@@ -172,7 +166,7 @@ namespace TFT_Data_Manager
             {
                 return img;
             }
-
+            
         }
 
         private void FlashMemoryMenuItem_Click(object sender, EventArgs e)
@@ -182,12 +176,19 @@ namespace TFT_Data_Manager
                 //save TFT data file
                 var dump = new rawTFTDTA
                 {
-                    COLMOD = (comboBox1.SelectedIndex == 0) ? (byte) 0x06 : (byte) 0x03, // RGB666 - RGB444
+                    COLMOD = (comboBox1.SelectedIndex == 0) ? (byte)0x06 : (byte)0x03, // RGB666 - RGB444
                     MADCTL = 0xA0, // 10100000 // MY mx MV ml rgb mh na na
                     num_images = (byte)listView1.Items.Count,
-                    bytes_per_image = (comboBox1.SelectedIndex == 0) ? (ushort) 0xF000 : (ushort) 0x7800
+                    bytes_per_image = (comboBox1.SelectedIndex == 0) ? (ushort)0xF000 : (ushort)0x7800
                 };
-                dump.data = new byte[dump.num_images, dump.bytes_per_image];
+
+                //init 2D array
+                dump.data = new byte[dump.num_images][];
+                for (var i = 0; i < dump.data.Length; i++)
+                {
+                    dump.data[i] = new byte[dump.bytes_per_image];
+                }
+
 
                 var destrect = new Rectangle(0, 0, 160, 128);
                 for (var i = 0; i < dump.num_images; i++)
@@ -206,9 +207,9 @@ namespace TFT_Data_Manager
                                 for (var x = 0; x < 160; x++)
                                 {
                                     var col = bmpBuffer.GetPixel(x, y); // todo optimize to marshal copymem
-                                    dump.data[i, (3 * ((y * 160) + x)) + 0] = col.R;
-                                    dump.data[i, (3 * ((y * 160) + x)) + 1] = col.G;
-                                    dump.data[i, (3 * ((y * 160) + x)) + 2] = col.B;
+                                    dump.data[i][(3 * ((y * 160) + x)) + 0] = col.R;
+                                    dump.data[i][(3 * ((y * 160) + x)) + 1] = col.G;
+                                    dump.data[i][(3 * ((y * 160) + x)) + 2] = col.B;
                                 }
                             }
                         }
@@ -218,30 +219,40 @@ namespace TFT_Data_Manager
                             {
                                 for (var x = 0; x < 80; x++)
                                 {
-                                    var col = bmpBuffer.GetPixel(2 * x, y); // todo optimize to marshal copymem
-
-                                    dump.data[i, (3 * ((y * 160) + x)) + 0] = col.R;
-                                    dump.data[i, (3 * ((y * 160) + x)) + 1] = col.G;
-
-                                    dump.data[i, (3 * ((y * 160) + x)) + 2] = col.B;
-
+                                    // todo optimize to marshal copymem
+                                    var col = bmpBuffer.GetPixel(2 * x, y);
+                                    dump.data[i][(3 * ((y * 160) + (2 * x))) + 0] = (byte)(col.R & 0xF0);
+                                    dump.data[i][(3 * ((y * 160) + (2 * x))) + 0] |= (byte)(col.G >> 4);
+                                    dump.data[i][(3 * ((y * 160) + (2 * x))) + 1] = (byte)(col.B & 0xF0);
                                     col = bmpBuffer.GetPixel((2 * x) + 1, y);
-                                    dump.data[i, (3 * ((y * 160) + x)) + 0] = col.R;
-
-                                    dump.data[i, (3 * ((y * 160) + x)) + 1] = col.G;
-                                    dump.data[i, (3 * ((y * 160) + x)) + 2] = col.B;
-
+                                    dump.data[i][(3 * ((y * 160) + (2 * x))) + 1] |= (byte)(col.R >> 4);
+                                    dump.data[i][(3 * ((y * 160) + (2 * x))) + 2] = (byte)(col.G & 0xF0);
+                                    dump.data[i][(3 * ((y * 160) + (2 * x))) + 2] |= (byte)(col.B >> 4);
                                 }
                             }
                         }
-
                     }
                 }
+
+                var fileStream = File.Create(saveDTAFileDialog2.FileName);
+                var writer = new BinaryWriter(fileStream);
+
+                writer.Write(dump.COLMOD);
+                writer.Write(dump.MADCTL);
+                writer.Write(dump.num_images);
+                writer.Write(dump.bytes_per_image);
+
+                for (var i = 0; i < dump.data.Length; i++)
+                {
+                    writer.Write(dump.data[i], 0, dump.data[i].Length);
+                }
+
+                fileStream.Flush();
+                fileStream.Dispose();
             }
         }
 
-        private
-            void loadSourceButton_Click(object sender, EventArgs e)
+        private void loadSourceButton_Click(object sender, EventArgs e)
         {
             openImageFileDialog1.FileName = "*.*";
             if (openImageFileDialog1.ShowDialog() == DialogResult.OK)
@@ -356,6 +367,8 @@ namespace TFT_Data_Manager
                 imageDataList.Remove(listView1.SelectedItems[0].ImageKey);
                 listView1.Items.RemoveAt(listView1.SelectedIndices[0]);
             }
+
+            label5.Text = listView1.Items.Count.ToString() + " / 255";
         }
 
         private void fitAllButton_Click(object sender, EventArgs e)
@@ -423,9 +436,33 @@ namespace TFT_Data_Manager
             listView1.EndUpdate();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void addFromLibToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            comboBox1.Text = comboBox1.SelectedText;
+            if (openLIBFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                //open and add library file
+
+                try
+                {
+
+                    var data = File.ReadAllText(openLIBFileDialog1.FileName);
+                    var buffer = JsonConvert.DeserializeObject<Dictionary<string, imageData>>(data);
+
+                   // thumbnailList.Images.Clear();
+                   // listView1.Items.Clear();
+                   // imageDataList.Clear();
+
+                    foreach (var VARIABLE in buffer)
+                    {
+                        imageDataList.Add(VARIABLE.Key, addSourceBitmap(buffer[VARIABLE.Key]));
+                        addElementToList(VARIABLE.Key, imageDataList[VARIABLE.Key]);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error Loading Library", MessageBoxButtons.OK);
+                }
+            }
         }
     }
 }
