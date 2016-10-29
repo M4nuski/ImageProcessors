@@ -32,11 +32,11 @@ namespace TFT_Data_Manager
 
         public struct rawTFTDTA
         {
-            public byte RGB_Code; // 565:55h 666:66h : set COLMOD
+            public byte COLMOD; // 565:55h 666:66h : set COLMOD
+            public byte MADCTL; //set MADCTL
             public byte num_images; // 0-255
             public ushort bytes_per_image; // 565:A000h 666:F000h
-            public byte MADCTL; //set MADCTL
-            public byte[] data;
+            public byte[,] data; // new byte[num_images, bytes_per_image] - sector alignment to be done on transfer
 
         }
 
@@ -50,6 +50,9 @@ namespace TFT_Data_Manager
         public MainForm()
         {
             InitializeComponent();
+            comboBox1.SelectedIndex = 0;
+            comboBox1.Text = comboBox1.Items[0].ToString();
+            
         }
 
 
@@ -57,19 +60,23 @@ namespace TFT_Data_Manager
         {
             if (currentWorkingBitmap != null)
             {
-                var new_key = Guid.NewGuid().ToString();
-
-                imageDataList.Add(new_key, new imageData()
+                if (listView1.Items.Count < 255)
                 {
-                    SourceBitmap = currentWorkingBitmap,
-                    SourcePath = currentWorkingImagePath,
-                    top = Convert.ToInt32(TopTextBox.Text),
-                    left = Convert.ToInt32(LeftTextBox.Text),
-                    width = Convert.ToInt32(WidthTextBox.Text),
-                    height = Convert.ToInt32(HeightTextBox.Text)
-                });
+                    var new_key = Guid.NewGuid().ToString();
 
-                addElementToList(new_key, imageDataList[new_key]);
+                    imageDataList.Add(new_key, new imageData()
+                    {
+                        SourceBitmap = currentWorkingBitmap,
+                        SourcePath = currentWorkingImagePath,
+                        top = Convert.ToInt32(TopTextBox.Text),
+                        left = Convert.ToInt32(LeftTextBox.Text),
+                        width = Convert.ToInt32(WidthTextBox.Text),
+                        height = Convert.ToInt32(HeightTextBox.Text)
+                    });
+
+                    addElementToList(new_key, imageDataList[new_key]);
+                }
+                else MessageBox.Show("Nombre Maximum d'images atteint: 255", "Erreur", MessageBoxButtons.OK);
             }
         }
 
@@ -173,10 +180,68 @@ namespace TFT_Data_Manager
             if (saveDTAFileDialog2.ShowDialog() == DialogResult.OK)
             {
                 //save TFT data file
+                var dump = new rawTFTDTA
+                {
+                    COLMOD = (comboBox1.SelectedIndex == 0) ? (byte) 0x06 : (byte) 0x03, // RGB666 - RGB444
+                    MADCTL = 0xA0, // 10100000 // MY mx MV ml rgb mh na na
+                    num_images = (byte)listView1.Items.Count,
+                    bytes_per_image = (comboBox1.SelectedIndex == 0) ? (ushort) 0xF000 : (ushort) 0x7800
+                };
+                dump.data = new byte[dump.num_images, dump.bytes_per_image];
+
+                var destrect = new Rectangle(0, 0, 160, 128);
+                for (var i = 0; i < dump.num_images; i++)
+                {
+                    using (var bmpBuffer = new Bitmap(160, 128))
+                    using (var g = Graphics.FromImage(bmpBuffer))
+                    {
+                        var img = imageDataList[listView1.Items[i].ImageKey];
+                        g.DrawImage(img.SourceBitmap, destrect, img.left, img.top, img.width, img.height, GraphicsUnit.Pixel);
+
+                        //convert
+                        if (comboBox1.SelectedIndex == 0)
+                        { //RGB666
+                            for (var y = 0; y < 128; y++)
+                            {
+                                for (var x = 0; x < 160; x++)
+                                {
+                                    var col = bmpBuffer.GetPixel(x, y); // todo optimize to marshal copymem
+                                    dump.data[i, (3 * ((y * 160) + x)) + 0] = col.R;
+                                    dump.data[i, (3 * ((y * 160) + x)) + 1] = col.G;
+                                    dump.data[i, (3 * ((y * 160) + x)) + 2] = col.B;
+                                }
+                            }
+                        }
+                        else
+                        { //RGB444
+                            for (var y = 0; y < 128; y++)
+                            {
+                                for (var x = 0; x < 80; x++)
+                                {
+                                    var col = bmpBuffer.GetPixel(2 * x, y); // todo optimize to marshal copymem
+
+                                    dump.data[i, (3 * ((y * 160) + x)) + 0] = col.R;
+                                    dump.data[i, (3 * ((y * 160) + x)) + 1] = col.G;
+
+                                    dump.data[i, (3 * ((y * 160) + x)) + 2] = col.B;
+
+                                    col = bmpBuffer.GetPixel((2 * x) + 1, y);
+                                    dump.data[i, (3 * ((y * 160) + x)) + 0] = col.R;
+
+                                    dump.data[i, (3 * ((y * 160) + x)) + 1] = col.G;
+                                    dump.data[i, (3 * ((y * 160) + x)) + 2] = col.B;
+
+                                }
+                            }
+                        }
+
+                    }
+                }
             }
         }
 
-        private void loadSourceButton_Click(object sender, EventArgs e)
+        private
+            void loadSourceButton_Click(object sender, EventArgs e)
         {
             openImageFileDialog1.FileName = "*.*";
             if (openImageFileDialog1.ShowDialog() == DialogResult.OK)
@@ -356,6 +421,11 @@ namespace TFT_Data_Manager
             listView1.Alignment = ListViewAlignment.Default;
             listView1.Alignment = ListViewAlignment.Top;
             listView1.EndUpdate();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox1.Text = comboBox1.SelectedText;
         }
     }
 }
