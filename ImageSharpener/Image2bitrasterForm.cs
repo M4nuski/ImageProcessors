@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApplication1
 {
-    public partial class Form1 : Form
+    public partial class Image2bitrasterForm : Form
     {
         public double[,,] SmoothBuffer, Buffer;
         public byte[] PixelSource, PixelOutput;
@@ -24,7 +24,7 @@ namespace WindowsFormsApplication1
         private delegate void DelegateUpdateProgressBar(int iValue);
         private readonly DelegateUpdateProgressBar _updateProgressBar;
         
-        public Form1()
+        public Image2bitrasterForm()
         {
             InitializeComponent();
             _updateProgressBar = UpdateProgressBar;

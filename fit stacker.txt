@@ -1,0 +1,45 @@
+R 620-680  650 255 0 0 (620 255 119 0, 680 255 0 0)
+G 490-560  532 0 255 0 (490 0 255 255, 560 195 255 0)
+B 400-510  473 0 0 255 (400 130 0 181, 510 0 255 0)
+H-a 656		255 0 0
+SII 672		255 0 0
+NII 658		255 0 0
+RCon 645	255 0 0
+OIII 501	0 255 146
+
+Hubble
+H	0 255 0
+S	255 0 0
+O	0 0 255
+
+Can-Fr
+H	255 0 0
+S	0 0 255
+O/N	0 255 0
+
+RGB
+R	255 0 0
+G	0 255 0
+B	0 0 255
+
+
+Composition:
+(Color x L).Add, (Color x L).Max, Color.Add, Color.Max
+
+Channel0
+Mode : Luminance/Color
+Teinte : rgb presets/custom
+Black Level: (datum)
+Contrast: (slope)
+Gamma: g
+
+Channel1 : R
+Channel2 : G
+Channel3 : B
+
+
+Load FIT
+Save TIFF
+Load Preset
+Save Preset
+Show Color Test Pattern
