@@ -30,3 +30,5 @@ _ReSharper*/
 TFT_Data_Manager/packages.config
 Image Blur.zip
 *.zip
+.vs/
+packages/
