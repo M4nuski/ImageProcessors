@@ -13,6 +13,8 @@ using System.Security.Cryptography;
 using System.Xml.Linq;
 using System.Threading;
 using System.IO.Ports;
+using System.Diagnostics.Eventing.Reader;
+using System.Diagnostics;
 
 namespace HX_20_LCD_Interface
 {
@@ -148,6 +150,7 @@ namespace HX_20_LCD_Interface
         private void onErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
             log("Error: " + e.EventType.ToString());
+
         }
         private void button_list_Click(object sender, EventArgs e)
         {
@@ -211,12 +214,22 @@ namespace HX_20_LCD_Interface
             if (toRead > inBuffer.Length) toRead = inBuffer.Length;
 
             var didRead = _serialPort.Read(inBuffer, inBufferStart, toRead);
+            try
+            {
+                // var chunks = didRead % 4;
+                var sp = inData.Position;
+                inData.Write(inBuffer, 0, didRead);
+                inData.Position = sp;
 
-            // var chunks = didRead % 4;
-            var sp = inData.Position;
-            inData.Write(inBuffer, 0, didRead);
-            inData.Position = sp;
-            Invoke(new void_voidDelegate(panel1_Paint), null);
+                Debug.Assert(inData.Position == sp);
+                if (pictureBox1.InvokeRequired)
+                {
+                    Invoke(new void_voidDelegate(panel1_Paint), null);
+                }
+                else panel1_Paint();
+            }
+            catch (Exception ex) { log(ex.Message); }
+
         }
 
         #endregion
@@ -272,10 +285,13 @@ namespace HX_20_LCD_Interface
                 inData.Position = start;
             }
 
+            //Debug.Assert(start < stop);
+
             int[] nCS = new int[6];
 
-            for (var i = start; i < stop; i += 4)
+            for (var i = start; i < stop-4; i += 4)
             {
+                Debug.Assert(i < inData.Length-4);
                 var junk = inData.ReadByte();
                 var mode = (byte)inData.ReadByte();
                 var isCommand = (mode & 0x40) > 0;
@@ -289,6 +305,7 @@ namespace HX_20_LCD_Interface
                 if (isCommand && (dta == 0x64) && !checkBox_stream.Checked && ((i+4) < stop-1))
                 {
                     i += 4;
+                    Debug.Assert(i < inData.Length - 4);
                     junk = inData.ReadByte();
                     var Nmode = (byte)inData.ReadByte();
                     var NisCommand = (Nmode & 0x40) > 0;
