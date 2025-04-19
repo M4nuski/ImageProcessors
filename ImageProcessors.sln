@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HX-20 LCD Interface", "HX-2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVG2PNG", "SVG2PNG\SVG2PNG.csproj", "{EB124FBE-2E59-43C5-908C-84EDC1CC6402}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinFontViewer", "BinFontViewer\BinFontViewer.csproj", "{90CD193A-8635-4751-8120-0EDAAF33025B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{EB124FBE-2E59-43C5-908C-84EDC1CC6402}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB124FBE-2E59-43C5-908C-84EDC1CC6402}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB124FBE-2E59-43C5-908C-84EDC1CC6402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90CD193A-8635-4751-8120-0EDAAF33025B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90CD193A-8635-4751-8120-0EDAAF33025B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90CD193A-8635-4751-8120-0EDAAF33025B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90CD193A-8635-4751-8120-0EDAAF33025B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
