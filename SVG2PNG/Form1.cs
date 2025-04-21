@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Web;
 using System.Windows.Forms;
 using Svg;
 
@@ -8,6 +9,7 @@ namespace SVG2PNG
     public partial class Form1 : Form
     {
         public SvgDocument svgDoc;
+        public Bitmap imgDoc;
         public string lastFileName = "";
 
         public Form1()
@@ -23,8 +25,10 @@ namespace SVG2PNG
         }
         private void button_Open_Click(object sender, EventArgs e)
         {
+            openFileDialog1.DefaultExt = "svg";
+            openFileDialog1.FileName = "*.svg";
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
-
+            if (imgDoc != null) imgDoc = null;
             try
             {
                 svgDoc = SvgDocument.Open(openFileDialog1.FileName);
@@ -64,17 +68,45 @@ namespace SVG2PNG
 
         private void checkBox_Invert_CheckedChanged(object sender, EventArgs e) // reprocess
         {
-            if (svgDoc == null) return;
-            log("Processing...");
+            if (svgDoc != null)
+            {
+                log("Processing...");
 
-            var dpi = int.Parse(textBox_DPI.Text);
-            if (dpi == 0) dpi = 96;
-            svgDoc.Ppi = dpi;
+                var dpi = int.Parse(textBox_DPI.Text);
+                if (dpi == 0) dpi = 96;
+                svgDoc.Ppi = dpi;
 
-            log("DPI set to: " + dpi);
+                log("DPI set to: " + dpi);
 
-            var bitmap = svgDoc.Draw();
-            bitmap.SetResolution(dpi, dpi);
+                var bitmap = svgDoc.Draw();
+                bitmap.SetResolution(dpi, dpi);
+
+                processImage(bitmap);
+
+                pictureBox2.Image = bitmap;
+                log("Done");
+                pictureBox2.Refresh();
+            } else if (imgDoc != null)
+            {
+                log("Processing...");
+
+                var dpi = int.Parse(textBox_DPI.Text);
+                if (dpi == 0) dpi = 96;
+
+                log("DPI set to: " + dpi);
+
+                var bitmap = new Bitmap(imgDoc);
+                bitmap.SetResolution(dpi, dpi);
+                processImage(bitmap);
+
+                pictureBox2.Image = bitmap;
+                log("Done");
+                pictureBox2.Refresh();
+            } 
+        }
+
+        private void processImage(Bitmap bitmap)
+        {
 
             var cw = Color.White;
             var cb = Color.Black;
@@ -94,15 +126,10 @@ namespace SVG2PNG
                     for (var y = 0; y < bitmap.Height; ++y)
                     {
                         var cc = bitmap.GetPixel(x, y);
-                        if (cEqRGB(cc, cw)) bitmap.SetPixel(x, y, cb);
-                        if (cEqRGB(cc, cb)) bitmap.SetPixel(x, y, cw);
+                        var nc = Color.FromArgb(255, 255 - cc.R, 255 - cc.G, 255 - cc.B);
+                        bitmap.SetPixel(x, y, nc);
                     }
             }
-
-            pictureBox2.Image = bitmap;
-            log("Done");
-            pictureBox2.Refresh();
-
         }
 
         private bool cEqRGB(Color a, Color b)
@@ -113,6 +140,26 @@ namespace SVG2PNG
         private void textBox_DPI_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Return) checkBox_Invert_CheckedChanged(sender, null);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.FileName = "*.png";
+            openFileDialog1.DefaultExt = "png";
+            if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
+            if(svgDoc != null) svgDoc = null;
+
+            log(openFileDialog1.FileName);
+
+            // var bv = Bitmap.
+            imgDoc = new Bitmap(openFileDialog1.FileName);
+            log(imgDoc.Width.ToString() + "x" + imgDoc.Height.ToString() + "pixels");
+            log(imgDoc.HorizontalResolution + " " + imgDoc.VerticalResolution + "dpi");
+            log(imgDoc.PhysicalDimension.ToString());
+            pictureBox1.Image = imgDoc;
+
+            checkBox_Invert_CheckedChanged(sender, e);
+
         }
     }
 }

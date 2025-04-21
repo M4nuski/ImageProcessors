@@ -38,6 +38,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox_alphaMode = new System.Windows.Forms.ComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -46,15 +47,15 @@
             // 
             this.button_Open.Location = new System.Drawing.Point(12, 12);
             this.button_Open.Name = "button_Open";
-            this.button_Open.Size = new System.Drawing.Size(75, 23);
+            this.button_Open.Size = new System.Drawing.Size(99, 23);
             this.button_Open.TabIndex = 0;
-            this.button_Open.Text = "Open";
+            this.button_Open.Text = "Open SVG";
             this.button_Open.UseVisualStyleBackColor = true;
             this.button_Open.Click += new System.EventHandler(this.button_Open_Click);
             // 
             // textBox_DPI
             // 
-            this.textBox_DPI.Location = new System.Drawing.Point(93, 12);
+            this.textBox_DPI.Location = new System.Drawing.Point(222, 13);
             this.textBox_DPI.Name = "textBox_DPI";
             this.textBox_DPI.Size = new System.Drawing.Size(100, 22);
             this.textBox_DPI.TabIndex = 1;
@@ -64,7 +65,7 @@
             // checkBox_Invert
             // 
             this.checkBox_Invert.AutoSize = true;
-            this.checkBox_Invert.Location = new System.Drawing.Point(199, 12);
+            this.checkBox_Invert.Location = new System.Drawing.Point(328, 13);
             this.checkBox_Invert.Name = "checkBox_Invert";
             this.checkBox_Invert.Size = new System.Drawing.Size(61, 20);
             this.checkBox_Invert.TabIndex = 2;
@@ -119,7 +120,7 @@
             this.comboBox_alphaMode.Items.AddRange(new object[] {
             "Transparent is BLACK",
             "Transparent is WHITE"});
-            this.comboBox_alphaMode.Location = new System.Drawing.Point(266, 10);
+            this.comboBox_alphaMode.Location = new System.Drawing.Point(395, 11);
             this.comboBox_alphaMode.Name = "comboBox_alphaMode";
             this.comboBox_alphaMode.Size = new System.Drawing.Size(167, 24);
             this.comboBox_alphaMode.TabIndex = 6;
@@ -135,11 +136,22 @@
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(117, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(99, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "Open Image";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1312, 729);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.comboBox_alphaMode);
             this.Controls.Add(this.textBox1);
@@ -169,6 +181,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ComboBox comboBox_alphaMode;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button button1;
     }
 }
 
