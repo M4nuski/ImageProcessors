@@ -81,6 +81,8 @@ namespace SVG2PNG
                 var bitmap = svgDoc.Draw();
                 bitmap.SetResolution(dpi, dpi);
 
+                bitmap = trimImage(bitmap);
+
                 processImage(bitmap);
 
                 pictureBox2.Image = bitmap;
@@ -97,6 +99,9 @@ namespace SVG2PNG
 
                 var bitmap = new Bitmap(imgDoc);
                 bitmap.SetResolution(dpi, dpi);
+
+                bitmap = trimImage(bitmap);
+
                 processImage(bitmap);
 
                 pictureBox2.Image = bitmap;
@@ -105,11 +110,23 @@ namespace SVG2PNG
             } 
         }
 
+        private Bitmap trimImage(Bitmap bitmap)
+        {
+            // trim 2.54mm from each edges
+            // 0.1in * dpi
+            if (checkBox_trim.Checked)
+            {
+                float trimL = 0.1f * (float)bitmap.HorizontalResolution;
+                var nbitmap = bitmap.Clone(new RectangleF(trimL, trimL, bitmap.Width - (trimL * 2.0f), bitmap.Height - (trimL* 2.0f) ), bitmap.PixelFormat);
+                log("Trimmed to " + (nbitmap.Width / nbitmap.HorizontalResolution * 25.4).ToString() + '/' + (nbitmap.Height / nbitmap.VerticalResolution * 25.4).ToString() + "mm");
+                return nbitmap;
+            }
+            return bitmap;
+        }
+
         private void processImage(Bitmap bitmap)
         {
 
-            var cw = Color.White;
-            var cb = Color.Black;
             var repCol = (comboBox_alphaMode.SelectedIndex == 0) ? Color.Black : Color.White;
             log("Checking transperency");
             for (var x = 0; x < bitmap.Width; ++x)
@@ -130,11 +147,6 @@ namespace SVG2PNG
                         bitmap.SetPixel(x, y, nc);
                     }
             }
-        }
-
-        private bool cEqRGB(Color a, Color b)
-        {
-            return ((a.R == b.R) && (a.G == b.G) && (a.B == b.B));
         }
 
         private void textBox_DPI_KeyDown(object sender, KeyEventArgs e)

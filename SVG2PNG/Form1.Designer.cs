@@ -39,6 +39,7 @@
             this.comboBox_alphaMode = new System.Windows.Forms.ComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.checkBox_trim = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -86,7 +87,7 @@
             // 
             // button_Save
             // 
-            this.button_Save.Location = new System.Drawing.Point(662, 12);
+            this.button_Save.Location = new System.Drawing.Point(715, 10);
             this.button_Save.Name = "button_Save";
             this.button_Save.Size = new System.Drawing.Size(75, 23);
             this.button_Save.TabIndex = 3;
@@ -146,11 +147,25 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // checkBox_trim
+            // 
+            this.checkBox_trim.AutoSize = true;
+            this.checkBox_trim.Checked = true;
+            this.checkBox_trim.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox_trim.Location = new System.Drawing.Point(568, 13);
+            this.checkBox_trim.Name = "checkBox_trim";
+            this.checkBox_trim.Size = new System.Drawing.Size(129, 20);
+            this.checkBox_trim.TabIndex = 9;
+            this.checkBox_trim.Text = "Trim 0.1in border";
+            this.checkBox_trim.UseVisualStyleBackColor = true;
+            this.checkBox_trim.CheckedChanged += new System.EventHandler(this.checkBox_Invert_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1312, 729);
+            this.Controls.Add(this.checkBox_trim);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.comboBox_alphaMode);
@@ -182,6 +197,7 @@
         private System.Windows.Forms.ComboBox comboBox_alphaMode;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.CheckBox checkBox_trim;
     }
 }
 
