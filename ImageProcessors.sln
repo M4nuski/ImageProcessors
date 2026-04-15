@@ -27,6 +27,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SVG2PNG", "SVG2PNG\SVG2PNG.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BinFontViewer", "BinFontViewer\BinFontViewer.csproj", "{90CD193A-8635-4751-8120-0EDAAF33025B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRT_PS_test", "CRT_PS_test\CRT_PS_test.csproj", "{50325224-C06A-414E-8EA8-A15A33727DDE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +88,10 @@ Global
 		{90CD193A-8635-4751-8120-0EDAAF33025B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90CD193A-8635-4751-8120-0EDAAF33025B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90CD193A-8635-4751-8120-0EDAAF33025B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50325224-C06A-414E-8EA8-A15A33727DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50325224-C06A-414E-8EA8-A15A33727DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50325224-C06A-414E-8EA8-A15A33727DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50325224-C06A-414E-8EA8-A15A33727DDE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
