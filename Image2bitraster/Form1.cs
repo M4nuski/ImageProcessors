@@ -168,7 +168,7 @@ namespace Image2bitraster
                     //var cv = b.GetPixel(x, y).R;
                     //sdfa = (byte)(52 + Math.Floor(cv / 32.0d));
                     //if (sdfa < 53) sdfa = 0;
-                    //bList.Add(sdfa);
+                    bList.Add(sdfa);
                     nb.SetPixel(x, y, Color.FromArgb(veraPalette[sdfa, 0], veraPalette[sdfa, 1], veraPalette[sdfa, 2]));
 
 
