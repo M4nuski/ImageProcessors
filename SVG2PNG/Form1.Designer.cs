@@ -38,7 +38,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox_alphaMode = new System.Windows.Forms.ComboBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_openImage = new System.Windows.Forms.Button();
             this.checkBox_trim = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -46,9 +46,10 @@
             // 
             // button_Open
             // 
-            this.button_Open.Location = new System.Drawing.Point(12, 12);
+            this.button_Open.Location = new System.Drawing.Point(9, 10);
+            this.button_Open.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button_Open.Name = "button_Open";
-            this.button_Open.Size = new System.Drawing.Size(99, 23);
+            this.button_Open.Size = new System.Drawing.Size(74, 19);
             this.button_Open.TabIndex = 0;
             this.button_Open.Text = "Open SVG";
             this.button_Open.UseVisualStyleBackColor = true;
@@ -56,19 +57,21 @@
             // 
             // textBox_DPI
             // 
-            this.textBox_DPI.Location = new System.Drawing.Point(222, 13);
+            this.textBox_DPI.Location = new System.Drawing.Point(166, 11);
+            this.textBox_DPI.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBox_DPI.Name = "textBox_DPI";
-            this.textBox_DPI.Size = new System.Drawing.Size(100, 22);
+            this.textBox_DPI.Size = new System.Drawing.Size(76, 20);
             this.textBox_DPI.TabIndex = 1;
-            this.textBox_DPI.Text = "320";
+            this.textBox_DPI.Text = "508";
             this.textBox_DPI.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_DPI_KeyDown);
             // 
             // checkBox_Invert
             // 
             this.checkBox_Invert.AutoSize = true;
-            this.checkBox_Invert.Location = new System.Drawing.Point(328, 13);
+            this.checkBox_Invert.Location = new System.Drawing.Point(246, 11);
+            this.checkBox_Invert.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkBox_Invert.Name = "checkBox_Invert";
-            this.checkBox_Invert.Size = new System.Drawing.Size(61, 20);
+            this.checkBox_Invert.Size = new System.Drawing.Size(53, 17);
             this.checkBox_Invert.TabIndex = 2;
             this.checkBox_Invert.Text = "Invert";
             this.checkBox_Invert.UseVisualStyleBackColor = true;
@@ -87,9 +90,10 @@
             // 
             // button_Save
             // 
-            this.button_Save.Location = new System.Drawing.Point(715, 10);
+            this.button_Save.Location = new System.Drawing.Point(536, 8);
+            this.button_Save.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button_Save.Name = "button_Save";
-            this.button_Save.Size = new System.Drawing.Size(75, 23);
+            this.button_Save.Size = new System.Drawing.Size(56, 19);
             this.button_Save.TabIndex = 3;
             this.button_Save.Text = "Save";
             this.button_Save.UseVisualStyleBackColor = true;
@@ -98,21 +102,22 @@
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 41);
+            this.pictureBox1.Location = new System.Drawing.Point(9, 33);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(640, 480);
+            this.pictureBox1.Size = new System.Drawing.Size(480, 390);
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             // 
             // textBox1
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(12, 527);
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox1.Location = new System.Drawing.Point(9, 427);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1290, 189);
+            this.textBox1.Size = new System.Drawing.Size(480, 365);
             this.textBox1.TabIndex = 5;
             // 
             // comboBox_alphaMode
@@ -121,40 +126,47 @@
             this.comboBox_alphaMode.Items.AddRange(new object[] {
             "Transparent is BLACK",
             "Transparent is WHITE"});
-            this.comboBox_alphaMode.Location = new System.Drawing.Point(395, 11);
+            this.comboBox_alphaMode.Location = new System.Drawing.Point(296, 9);
+            this.comboBox_alphaMode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox_alphaMode.Name = "comboBox_alphaMode";
-            this.comboBox_alphaMode.Size = new System.Drawing.Size(167, 24);
+            this.comboBox_alphaMode.Size = new System.Drawing.Size(126, 21);
             this.comboBox_alphaMode.TabIndex = 6;
             this.comboBox_alphaMode.Text = "Transparent is Whatever";
             this.comboBox_alphaMode.SelectedIndexChanged += new System.EventHandler(this.checkBox_Invert_CheckedChanged);
             // 
             // pictureBox2
             // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Location = new System.Drawing.Point(662, 41);
+            this.pictureBox2.Location = new System.Drawing.Point(496, 33);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(640, 480);
+            this.pictureBox2.Size = new System.Drawing.Size(1002, 758);
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
             // 
-            // button1
+            // button_openImage
             // 
-            this.button1.Location = new System.Drawing.Point(117, 13);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 23);
-            this.button1.TabIndex = 8;
-            this.button1.Text = "Open Image";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button_openImage.Location = new System.Drawing.Point(88, 11);
+            this.button_openImage.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_openImage.Name = "button_openImage";
+            this.button_openImage.Size = new System.Drawing.Size(74, 19);
+            this.button_openImage.TabIndex = 8;
+            this.button_openImage.Text = "Open Image";
+            this.button_openImage.UseVisualStyleBackColor = true;
+            this.button_openImage.Click += new System.EventHandler(this.button1_Click);
             // 
             // checkBox_trim
             // 
             this.checkBox_trim.AutoSize = true;
             this.checkBox_trim.Checked = true;
             this.checkBox_trim.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBox_trim.Location = new System.Drawing.Point(568, 13);
+            this.checkBox_trim.Location = new System.Drawing.Point(426, 11);
+            this.checkBox_trim.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.checkBox_trim.Name = "checkBox_trim";
-            this.checkBox_trim.Size = new System.Drawing.Size(129, 20);
+            this.checkBox_trim.Size = new System.Drawing.Size(105, 17);
             this.checkBox_trim.TabIndex = 9;
             this.checkBox_trim.Text = "Trim 0.1in border";
             this.checkBox_trim.UseVisualStyleBackColor = true;
@@ -162,11 +174,11 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1312, 729);
+            this.ClientSize = new System.Drawing.Size(1509, 802);
             this.Controls.Add(this.checkBox_trim);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_openImage);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.comboBox_alphaMode);
             this.Controls.Add(this.textBox1);
@@ -175,6 +187,7 @@
             this.Controls.Add(this.checkBox_Invert);
             this.Controls.Add(this.textBox_DPI);
             this.Controls.Add(this.button_Open);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "Form1";
             this.Text = "SVG to PNG Converter";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -196,7 +209,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ComboBox comboBox_alphaMode;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_openImage;
         private System.Windows.Forms.CheckBox checkBox_trim;
     }
 }
